@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/04 16:33:38 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/04 17:05:38 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@
  */
 #include "../inc/philo.h"
 
-int	start_simulation(t_god *p_init)
+int	start_simulation(t_init_struct *p_init)
 {
+    //printf("simulation started ")
 	return (0);
 }
 
@@ -75,11 +76,11 @@ int	add_to_shit_list(t_shit_to_free **shit_list, void *elem)
 	return (0);
 }
 
-t_god	*init_simulation(char **argv, t_shit_to_free **shit_list)
+t_init_struct	*create_init_struct(char **argv, t_shit_to_free **shit_list)
 {
-	t_god	*p_init;
+	t_init_struct	*p_init;
 
-	p_init = malloc(sizeof(t_god));
+	p_init = malloc(sizeof(t_init_struct));
 	if (!p_init)
 		return (NULL);
 	p_init->num_of_philosophers = ft_atoi(argv[1]);
@@ -96,7 +97,7 @@ t_god	*init_simulation(char **argv, t_shit_to_free **shit_list)
 
 int	main(int argc, char **argv)
 {
-	t_god	*p_init;
+	t_init_struct	*p_init;
 	t_shit_to_free	*shit_list;
 
 	shit_list = NULL;
@@ -106,13 +107,15 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	// check if args passed are valid (numeric, within certain limits etc.)
-	// if that's ok, we init the simulation
-	p_init = init_simulation(argv, &shit_list);
+	// maybe in ft_atoi itself? 
+    // if that's ok, we create the init_struct
+	p_init = create_init_struct(argv, &shit_list);
 	if (!p_init)
 	{
-		printf("malloc error in init_simulation\n");
+		printf("malloc error in create_init_struct\n");
 		return (1);
 	}
+    //init_simulation (p_init);
 	start_simulation(p_init);
 	// return something?
 	return (0);
