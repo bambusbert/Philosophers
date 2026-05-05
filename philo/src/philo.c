@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 17:55:42 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 18:31:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ void	*philo_routine(void *arg)
 	t_single_philo	*philo;
 
 	philo = (t_single_philo *)arg;
+	pthread_mutex_lock(&philo->p_god->print_mutex);
 	printf("Philosopher %d is ready\n", philo->id);
+	pthread_mutex_unlock(&philo->p_god->print_mutex);
 	return ((void *)NULL);
 }
 
@@ -80,6 +82,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
 	philo->time_since_last_meal = 0;
+	philo->p_god = p_god;
 	philo->status = INIT;
 	return (philo);
 }
@@ -124,12 +127,14 @@ void	wait_for_philo_threads(t_god_struct *p_god)
 
 void	init_mutexes(t_god_struct *p_god)
 {
-	pthread_mutex_init(&p_god->mutex, NULL);
+	pthread_mutex_init(&p_god->shit_mutex, NULL);
+	pthread_mutex_init(&p_god->print_mutex, NULL);
 }
 
 void	destroy_mutexes(t_god_struct *p_god)
 {
-	pthread_mutex_destroy(&p_god->mutex);
+	pthread_mutex_destroy(&p_god->shit_mutex);
+	pthread_mutex_destroy(&p_god->print_mutex);
 }
 
 int	main(int argc, char **argv)
@@ -160,10 +165,8 @@ int	main(int argc, char **argv)
 		cleanup_everything(p_god);
 		return (1);
 	}
+	
 	wait_for_philo_threads(p_god);
-	destroy_mutexes(p_god);
-	// start_simulation(p_god);
-	// return something?
 	cleanup_everything(p_god);
 	return (0);
 }
