@@ -13,7 +13,7 @@ RED = \033[0;31m
 # Compiler and flags
 CC = cc
 #CFLAGS = -Wall -Wextra -Werror -pthread
-CFLAGS = -pthread
+CFLAGS = -pthread -g
 INCLUDES = -I./inc
 
 # Directories
@@ -21,7 +21,8 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 # Source files
-SRC =	src/philo.c src/ft_atoi.c src/debug.c
+SRC =	src/philo.c src/ft_atoi.c src/debug.c src/ft_calloc.c \
+		src/cleanup.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 HEAD = inc/philo.h

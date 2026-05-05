@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/04 18:06:05 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:07:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,10 @@
 # define PHILO_H
 
 # include <limits.h>
+# include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
-# include <pthread.h>
-
-typedef struct s_init_struct
-{
-	int						num_of_philosophers;
-	int						time_to_die;
-	int						time_to_eat;
-	int						time_to_sleep;
-	int						no_o_t_e_p_m_eat;
-}							t_init_struct;
 
 typedef struct s_shit_to_free
 {
@@ -34,11 +25,28 @@ typedef struct s_shit_to_free
 	struct s_shit_to_free	*next;
 }							t_shit_to_free;
 
+typedef struct s_god_struct
+{
+	t_shit_to_free			*shit_list;
+	int						num_of_philosophers;
+	int						time_to_die;
+	int						time_to_eat;
+	int						time_to_sleep;
+	int						no_o_t_e_p_m_eat;
+	pthread_t				*threads;
+	int						cur_philo_id; //weg
+}							t_god_struct;
+
 // struct for singular philosopher
 typedef struct s_single_philo
 {
 	int						status;
-
+	int						id;
+	int						time_to_die;
+	int						time_to_eat;
+	int						time_to_sleep;
+	int						no_o_t_e_p_m_eat;
+	int						time_since_last_meal;
 	// info on left and right fork
 }							t_single_philo;
 
@@ -53,7 +61,18 @@ enum						e_philo_status
 	DEAD
 };
 
-void						print_p_init(t_init_struct *p_init);
+enum
+{
+	ERROR_SOFT = -1,
+	ERROR_HARD = -2	
+};
+
+void						print_p_init(t_god_struct *p_init);
 int							ft_atoi(char *arg);
+void						*ft_calloc(size_t nmemb, size_t size);
+
+//cleanup.c
+void cleanup_and_exit (t_god_struct *p_god, int i);
+int	add_to_shit_list(t_shit_to_free **shit_list, void *elem);
 
 #endif
