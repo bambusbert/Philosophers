@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 17:11:40 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:36:12 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
  */
 #include "../inc/philo.h"
 
-pthread_mutex_t mutex;
-
 t_god_struct	*create_god_struct(char **argv)
 {
 	t_god_struct	*p_god;
@@ -44,11 +42,10 @@ t_god_struct	*create_god_struct(char **argv)
 	else
 		p_god->no_o_t_e_p_m_eat = -1;
 	p_god->shit_list = NULL;
-	p_god->cur_philo_id = -1;
 	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
 	if (!p_god->threads)
 		cleanup_and_exit(p_god, 2);
-	add_to_shit_list(&(p_god->shit_list), (void*)p_god->threads);
+	add_to_shit_list(p_god, &(p_god->shit_list), (void*)p_god->threads);
 	print_p_init(p_god);
 	return (p_god);
 }
@@ -76,7 +73,7 @@ t_single_philo *init_philo_struct (t_god_struct *p_god, int i)
 	philo = ft_calloc(1, sizeof(t_single_philo));
 	if (!philo)
 		cleanup_and_exit(p_god, 1);
-	add_to_shit_list(&(p_god->shit_list), philo);
+	add_to_shit_list(p_god, &(p_god->shit_list), philo);
 	philo->id = i;
 	philo->no_o_t_e_p_m_eat = p_god->no_o_t_e_p_m_eat;
 	philo->time_to_die = p_god->time_to_die;
@@ -110,10 +107,10 @@ void create_philo_threads (t_god_struct *p_god)
 	int i;
 	pthread_t *threads;
 
-	threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
-	if (!threads)
-		cleanup_and_exit(p_god, 1);
-	add_to_shit_list(&p_god->shit_list, (void*)threads);
+	// threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
+	// if (!threads)
+	// 	cleanup_and_exit(p_god, 1);
+	// add_to_shit_list(&p_god->shit_list, (void*)threads);
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
 	{
@@ -130,14 +127,14 @@ void wait_for_philo_threads(t_god_struct *p_god)
 		pthread_join(p_god->threads[i], NULL);
 }
 
-void init_mutexes ()
+void init_mutexes (t_god_struct *p_god)
 {
-	pthread_mutex_init(&mutex, NULL);
+	pthread_mutex_init(&p_god->mutex, NULL);
 }
 
-void destroy_mutexes ()
+void destroy_mutexes (t_god_struct *p_god)
 {
-	pthread_mutex_destroy(&mutex);
+	pthread_mutex_destroy(&p_god->mutex);
 }
 
 int	main(int argc, char **argv)
@@ -160,11 +157,12 @@ int	main(int argc, char **argv)
 		printf("malloc error in create_god_struct\n");
 		return (1);
 	}
-	init_mutexes ();
+	init_mutexes (p_god);
     create_philo_threads (p_god);
 	wait_for_philo_threads(p_god);
-	destroy_mutexes();
+	destroy_mutexes(p_god);
 	//start_simulation(p_god);
 	// return something?
+	cleanup_everything(p_god);
 	return (0);
 }

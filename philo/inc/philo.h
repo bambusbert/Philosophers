@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 17:07:00 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:35:01 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	pthread_t				*threads;
-	int						cur_philo_id; //weg
+	pthread_mutex_t			mutex;
 }							t_god_struct;
 
 // struct for singular philosopher
@@ -72,7 +72,8 @@ int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
 
 //cleanup.c
-void cleanup_and_exit (t_god_struct *p_god, int i);
-int	add_to_shit_list(t_shit_to_free **shit_list, void *elem);
+void cleanup_everything (t_god_struct *p_god);
+void cleanup_and_exit (t_god_struct *p_god, int i);		//weg
+int	add_to_shit_list(t_god_struct *p_god, t_shit_to_free **shit_list, void *elem);
 
 #endif
