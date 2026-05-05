@@ -6,11 +6,11 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 17:36:12 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:55:42 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//TODO exit is not allowed! only in bonus :(
+// TODO exit is not allowed! only in bonus :(
 
 /*
  * THOUGHTS:
@@ -44,35 +44,35 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god->shit_list = NULL;
 	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
 	if (!p_god->threads)
-		cleanup_and_exit(p_god, 2);
-	add_to_shit_list(p_god, &(p_god->shit_list), (void*)p_god->threads);
+		return (NULL);
+	add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->threads);
 	print_p_init(p_god);
 	return (p_god);
 }
 
 int	start_simulation(t_god_struct *p_god)
 {
-    //printf("simulation started ")
+	// printf("simulation started ")
 	return (0);
 }
 
-//thats the function that gets spawned by a philo thread
-void *philo_routine(void *arg)
+// thats the function that gets spawned by a philo thread
+void	*philo_routine(void *arg)
 {
-	t_single_philo *philo;
-	
+	t_single_philo	*philo;
+
 	philo = (t_single_philo *)arg;
 	printf("Philosopher %d is ready\n", philo->id);
-	return (void*)NULL;
+	return ((void *)NULL);
 }
 
-t_single_philo *init_philo_struct (t_god_struct *p_god, int i)
+t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 {
-	t_single_philo *philo;
-	
+	t_single_philo	*philo;
+
 	philo = ft_calloc(1, sizeof(t_single_philo));
 	if (!philo)
-		cleanup_and_exit(p_god, 1);
+		return (NULL);
 	add_to_shit_list(p_god, &(p_god->shit_list), philo);
 	philo->id = i;
 	philo->no_o_t_e_p_m_eat = p_god->no_o_t_e_p_m_eat;
@@ -81,58 +81,53 @@ t_single_philo *init_philo_struct (t_god_struct *p_god, int i)
 	philo->time_to_sleep = p_god->time_to_sleep;
 	philo->time_since_last_meal = 0;
 	philo->status = INIT;
-	return philo;
+	return (philo);
 }
 /*
  *	1. initialize the philo struct
  *	2. start the philo thread with that struct as the argument
  */
-void create_philo_thread(t_god_struct *p_god, int i)
+int	create_philo_thread(t_god_struct *p_god, int i)
 {
-	t_single_philo *philo;
-	//lock
-	//pthread_mutex_lock(&mutex);
-	//p_god->cur_philo_id = i;
-	philo = init_philo_struct (p_god, i);
+	t_single_philo	*philo;
 
-	
-	if (pthread_create(&(p_god->threads[i]), NULL, philo_routine, (void*) philo) != 0)
-		cleanup_and_exit(p_god, 1);
-	//unlock
-	//pthread_mutex_unlock(&mutex);
+	philo = init_philo_struct(p_god, i);
+	if (!philo)
+		return (ERROR_HARD);
+	if (pthread_create(&(p_god->threads[i]), NULL, philo_routine,
+			(void *)philo) != 0)
+		return (ERROR_HARD);
+	return (RET_OK);
 }
 
-void create_philo_threads (t_god_struct *p_god)
+int	create_philo_threads(t_god_struct *p_god)
 {
-	int i;
-	pthread_t *threads;
+	int	i;
 
-	// threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
-	// if (!threads)
-	// 	cleanup_and_exit(p_god, 1);
-	// add_to_shit_list(&p_god->shit_list, (void*)threads);
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
 	{
-		create_philo_thread(p_god, i);
+		if (create_philo_thread(p_god, i) == ERROR_HARD)
+			return (ERROR_HARD);
 	}
+	return (RET_OK);
 }
 
-void wait_for_philo_threads(t_god_struct *p_god)
+void	wait_for_philo_threads(t_god_struct *p_god)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
 		pthread_join(p_god->threads[i], NULL);
 }
 
-void init_mutexes (t_god_struct *p_god)
+void	init_mutexes(t_god_struct *p_god)
 {
 	pthread_mutex_init(&p_god->mutex, NULL);
 }
 
-void destroy_mutexes (t_god_struct *p_god)
+void	destroy_mutexes(t_god_struct *p_god)
 {
 	pthread_mutex_destroy(&p_god->mutex);
 }
@@ -149,19 +144,25 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	// check if args passed are valid (numeric, within certain limits etc.)
-	// maybe in ft_atoi itself? 
-    // if that's ok, we create the init_struct
+	// maybe in ft_atoi itself?
+	// if that's ok, we create the init_struct
 	p_god = create_god_struct(argv);
 	if (!p_god)
 	{
 		printf("malloc error in create_god_struct\n");
+		cleanup_everything(p_god);
 		return (1);
 	}
-	init_mutexes (p_god);
-    create_philo_threads (p_god);
+	init_mutexes(p_god);
+	if (create_philo_threads(p_god) == ERROR_HARD)
+	{
+		printf("critical error in create_philo_threads\n");
+		cleanup_everything(p_god);
+		return (1);
+	}
 	wait_for_philo_threads(p_god);
 	destroy_mutexes(p_god);
-	//start_simulation(p_god);
+	// start_simulation(p_god);
 	// return something?
 	cleanup_everything(p_god);
 	return (0);

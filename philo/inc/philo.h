@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 17:35:01 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/05 17:52:41 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,18 @@ enum						e_philo_status
 
 enum
 {
+	RET_OK = 0,
 	ERROR_SOFT = -1,
-	ERROR_HARD = -2	
+	ERROR_HARD = -2
 };
 
 void						print_p_init(t_god_struct *p_init);
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
 
-//cleanup.c
-void cleanup_everything (t_god_struct *p_god);
-void cleanup_and_exit (t_god_struct *p_god, int i);		//weg
-int	add_to_shit_list(t_god_struct *p_god, t_shit_to_free **shit_list, void *elem);
+// cleanup.c
+void						cleanup_everything(t_god_struct *p_god);
+int							add_to_shit_list(t_god_struct *p_god,
+								t_shit_to_free **shit_list, void *elem);
 
 #endif
