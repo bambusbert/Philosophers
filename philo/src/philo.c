@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 18:31:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 13:59:11 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
 	if (!p_god->threads)
 		return (NULL);
-	add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->threads);
+	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->threads) == ERROR_HARD)
+		return NULL;
 	print_p_init(p_god);
 	return (p_god);
 }
@@ -75,7 +76,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo = ft_calloc(1, sizeof(t_single_philo));
 	if (!philo)
 		return (NULL);
-	add_to_shit_list(p_god, &(p_god->shit_list), philo);
+	if (add_to_shit_list(p_god, &(p_god->shit_list), philo) == ERROR_HARD)
+		return NULL;
 	philo->id = i;
 	philo->no_o_t_e_p_m_eat = p_god->no_o_t_e_p_m_eat;
 	philo->time_to_die = p_god->time_to_die;
@@ -127,13 +129,13 @@ void	wait_for_philo_threads(t_god_struct *p_god)
 
 void	init_mutexes(t_god_struct *p_god)
 {
-	pthread_mutex_init(&p_god->shit_mutex, NULL);
+	//pthread_mutex_init(&p_god->shit_mutex, NULL);
 	pthread_mutex_init(&p_god->print_mutex, NULL);
 }
 
 void	destroy_mutexes(t_god_struct *p_god)
 {
-	pthread_mutex_destroy(&p_god->shit_mutex);
+	//pthread_mutex_destroy(&p_god->shit_mutex);
 	pthread_mutex_destroy(&p_god->print_mutex);
 }
 

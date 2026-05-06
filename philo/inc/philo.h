@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/05 18:29:33 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 13:59:02 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	pthread_t				*threads;
-	pthread_mutex_t			shit_mutex;
+	//pthread_mutex_t			shit_mutex;
 	pthread_mutex_t			print_mutex;
 }							t_god_struct;
 
