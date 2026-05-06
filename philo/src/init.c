@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 18:45:55 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:48:43 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ long long return_time_in_ms()
 	time_sec = (long long) tv.tv_sec;
 	time_usec = (long long) tv.tv_usec;
 	time_msec = time_sec * 1000 + time_usec / 1000;
-	
 	return time_msec;
 }
 

@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 18:13:11 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:56:02 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@
  * -    after initialization I have to check wether the init process was
  *      successfull. If it was, that means that eachn philosopher is in a
  *      ready state
- * -
+ * TODOs:
+ * -	implement the sleep/think/eat cycle
+ * -	add fork locking / unlocking
+ * -	add death & time_to_eat monitoring
+ * -	implement input validation
+ * -	advance clanup.c & init.c error handling
  */
 #include "../inc/philo.h"
 
