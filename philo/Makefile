@@ -28,7 +28,10 @@ SRC =	src/philo.c \
 		src/cleanup.c \
 		src/init.c \
 		src/routine.c \
-		src/threads.c
+		src/threads.c \
+		src/print_master.c \
+		src/print_slave.c \
+		src/time.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 HEAD = inc/philo.h

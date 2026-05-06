@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 18:44:34 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 19:12:03 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ enum						e_philo_status
 	INIT,
 	SLEEPING,
 	THINKING,
+	FORK_TAKEN,
 	HUNGRY,
 	EATING,
 	DEAD
@@ -88,6 +89,7 @@ void						init_mutexes(t_god_struct *p_god);
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
 long long					return_time_in_ms(void);
+long long					return_delta_time(t_god_struct *p_god);
 
 // threads.c
 int							create_philo_threads(t_god_struct *p_god);
@@ -95,6 +97,18 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 
 // routine.c
 void						*philo_routine(void *arg);
+
+// print_slave.c
+void						print_status_fork(t_god_struct *p_god,
+								long long timestamp, int id);
+void						print_status_eating(t_god_struct *p_god,
+								long long timestamp, int id);
+void						print_status_sleeping(t_god_struct *p_god,
+								long long timestamp, int id);
+void						print_status_thinking(t_god_struct *p_god,
+								long long timestamp, int id);
+void						print_status_died(t_god_struct *p_god,
+								long long timestamp, int id);
 
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);
