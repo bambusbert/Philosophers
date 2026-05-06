@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 19:12:03 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 22:18:39 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 typedef struct s_shit_to_free
 {
@@ -51,6 +52,8 @@ typedef struct s_single_philo
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	int						time_since_last_meal;
+	int						group;
+	int						is_alternating;
 	pthread_mutex_t			*fork_left;
 	pthread_mutex_t			*fork_right;
 	// info on left and right fork
@@ -75,6 +78,12 @@ enum
 	ERROR_HARD = -2
 };
 
+enum
+{
+	GROUP_ODD,
+	GROUP_EVEN
+};
+
 // debug.c
 void						print_p_init(t_god_struct *p_init);
 void						print_philo_forks(t_single_philo *philo);
@@ -97,6 +106,10 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 
 // routine.c
 void						*philo_routine(void *arg);
+
+// print_master.c
+void						print_status(t_god_struct *p_god, int event,
+								int id);
 
 // print_slave.c
 void						print_status_fork(t_god_struct *p_god,

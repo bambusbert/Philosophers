@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:04:47 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 19:08:15 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 22:21:17 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,10 @@ void print_philo_forks (t_single_philo *philo)
 
 void say_hello (t_single_philo *philo)
 {
-	printf("%llu I am Philosopher %d\n", return_time_in_ms() - philo->p_god->start_time, philo->id + 1);
+	pthread_mutex_lock(&philo->p_god->print_mutex);
+	printf("%llu I am Philosopher %d, my group is %d", return_time_in_ms() - philo->p_god->start_time, philo->id + 1, philo->group);
+	if (philo->is_alternating)
+		printf (" AND i am alternating");
+	printf("\n");
+	pthread_mutex_unlock(&philo->p_god->print_mutex);
 }

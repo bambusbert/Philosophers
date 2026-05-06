@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 19:14:11 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 22:19:11 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,16 @@ t_god_struct	*create_god_struct(char **argv)
 	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
 		return (free (p_god->forks), free(p_god), NULL);
 	p_god->start_time = return_time_in_ms();
-	print_p_init(p_god);
+	//print_p_init(p_god);
 	return (p_god);
+}
+
+void	assign_group(t_single_philo *philo)
+{
+	if (philo->id % 2 == 0)
+		philo->group = GROUP_EVEN;
+	else
+		philo->group = GROUP_ODD;
 }
 
 t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
@@ -75,8 +83,12 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
 	philo->time_since_last_meal = 0;
+	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
+	if (i == p_god->num_of_philosophers - 1 && philo->id % 2 == 0)
+		philo->is_alternating = 1;
+	assign_group(philo);
 	assign_forks (p_god, philo);
 	//print_philo_forks(philo);
 	return (philo);
