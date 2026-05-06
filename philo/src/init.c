@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 15:37:01 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:45:55 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,23 @@ static void assign_forks(t_god_struct *p_god, t_single_philo *philo)
 	philo->fork_right = &p_god->forks[philo->id - 1];
 }
 
-t_god_struct	*create_god_struct(char **argv)
+long long return_time_in_ms()
 {
-	t_god_struct	*p_god;
+	struct timeval tv;
+	long long time_sec;
+	long long time_usec;
+	long long time_msec;
+	
+	gettimeofday(&tv, NULL);
+	time_sec = (long long) tv.tv_sec;
+	time_usec = (long long) tv.tv_usec;
+	time_msec = time_sec * 1000 + time_usec / 1000;
+	
+	return time_msec;
+}
 
-	p_god = ft_calloc(1, sizeof(t_god_struct));
-	if (!p_god)
-		return (NULL);
+void fill_args(t_god_struct *p_god, char **argv)
+{
 	p_god->num_of_philosophers = ft_atoi(argv[1]);
 	p_god->time_to_die = ft_atoi(argv[2]);
 	p_god->time_to_eat = ft_atoi(argv[3]);
@@ -39,6 +49,16 @@ t_god_struct	*create_god_struct(char **argv)
 		p_god->no_o_t_e_p_m_eat = ft_atoi(argv[5]);
 	else
 		p_god->no_o_t_e_p_m_eat = -1;
+}
+
+t_god_struct	*create_god_struct(char **argv)
+{
+	t_god_struct	*p_god;
+
+	p_god = ft_calloc(1, sizeof(t_god_struct));
+	if (!p_god)
+		return (NULL);
+	fill_args(p_god, argv);
 	p_god->shit_list = NULL;
 	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
 	if (!p_god->threads)
@@ -50,6 +70,7 @@ t_god_struct	*create_god_struct(char **argv)
 		return (free(p_god), NULL);
 	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
 		return (free (p_god->forks), free(p_god), NULL);
+	p_god->start_time = return_time_in_ms();
 	print_p_init(p_god);
 	return (p_god);
 }
@@ -72,7 +93,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->p_god = p_god;
 	philo->status = INIT;
 	assign_forks (p_god, philo);
-	print_philo_forks(philo);
+	//print_philo_forks(philo);
 	return (philo);
 }
 

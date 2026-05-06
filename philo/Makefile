@@ -21,8 +21,14 @@ SRC_DIR = src
 OBJ_DIR = obj
 
 # Source files
-SRC =	src/philo.c src/ft_atoi.c src/debug.c src/ft_calloc.c \
-		src/cleanup.c src/init.c
+SRC =	src/philo.c \
+		src/ft_atoi.c \
+		src/debug.c \
+		src/ft_calloc.c \
+		src/cleanup.c \
+		src/init.c \
+		src/routine.c \
+		src/threads.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 HEAD = inc/philo.h

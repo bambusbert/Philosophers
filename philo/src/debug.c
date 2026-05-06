@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 15:04:47 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 15:12:08 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 18:47:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,9 @@ void print_philo_forks (t_single_philo *philo)
 	printf("I am Philosopher %d\n", philo->id);
 	printf("my left fork is %p\n", philo->fork_left);
 	printf("my right fork is %p\n", philo->fork_right);
+}
+
+void say_hello (t_single_philo *philo)
+{
+	printf("%llu I am Philosopher %d\n", return_time_in_ms() - philo->p_god->start_time, philo->id + 1);
 }
