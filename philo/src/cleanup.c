@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 14:08:55 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 15:36:08 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,17 @@ int	add_to_shit_list(t_god_struct *p_god, t_shit_to_free **shit_list,
 	current->next = new_node;
 	//pthread_mutex_unlock(&p_god->shit_mutex);
 	return (0);
+}
+
+void	destroy_mutexes(t_god_struct *p_god)
+{
+	int i;
+	
+	//pthread_mutex_destroy(&p_god->shit_mutex);
+	pthread_mutex_destroy(&p_god->print_mutex);
+	i = -1;
+	while (++i < p_god->num_of_philosophers)
+		pthread_mutex_destroy(&p_god->forks[i]);
 }
 
 //unfortunately exit is not allowed, only in the bonus :(

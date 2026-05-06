@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 15:24:47 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 15:36:17 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ enum
 void						print_p_init(t_god_struct *p_init);
 void						print_philo_forks(t_single_philo *philo);
 
+// init.c
+t_god_struct				*create_god_struct(char **argv);
+t_single_philo				*init_philo_struct(t_god_struct *p_god, int i);
+void						init_mutexes(t_god_struct *p_god);
+
 // xyxyxyxyx
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
@@ -85,6 +90,7 @@ void						*ft_calloc(size_t nmemb, size_t size);
 void						cleanup_everything(t_god_struct *p_god);
 int							add_to_shit_list(t_god_struct *p_god,
 								t_shit_to_free **shit_list, void *elem);
+void						destroy_mutexes(t_god_struct *p_god);
 void						destroy_mutexes(t_god_struct *p_god);
 
 #endif
