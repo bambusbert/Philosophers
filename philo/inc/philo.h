@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 13:59:02 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 15:24:47 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	pthread_t				*threads;
-	//pthread_mutex_t			shit_mutex;
+	// pthread_mutex_t			shit_mutex;
 	pthread_mutex_t			print_mutex;
+	pthread_mutex_t			*forks;
 }							t_god_struct;
 
 // struct for singular philosopher
@@ -49,6 +50,8 @@ typedef struct s_single_philo
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	int						time_since_last_meal;
+	pthread_mutex_t			*fork_left;
+	pthread_mutex_t			*fork_right;
 	// info on left and right fork
 }							t_single_philo;
 
@@ -70,7 +73,11 @@ enum
 	ERROR_HARD = -2
 };
 
+// debug.c
 void						print_p_init(t_god_struct *p_init);
+void						print_philo_forks(t_single_philo *philo);
+
+// xyxyxyxyx
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
 

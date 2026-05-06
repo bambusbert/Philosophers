@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 13:59:11 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 15:25:02 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,12 @@ t_god_struct	*create_god_struct(char **argv)
 	if (!p_god->threads)
 		return (NULL);
 	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->threads) == ERROR_HARD)
-		return NULL;
+		return (free (p_god->threads), NULL);
+	p_god->forks = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_mutex_t));
+	if (!p_god->forks)
+		return (NULL);
+	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
+		return (free (p_god->forks), NULL);
 	print_p_init(p_god);
 	return (p_god);
 }
@@ -64,9 +69,21 @@ void	*philo_routine(void *arg)
 
 	philo = (t_single_philo *)arg;
 	pthread_mutex_lock(&philo->p_god->print_mutex);
-	printf("Philosopher %d is ready\n", philo->id);
+	//printf("Philosopher %d is ready\n", philo->id);
 	pthread_mutex_unlock(&philo->p_god->print_mutex);
 	return ((void *)NULL);
+}
+
+void assign_forks(t_god_struct *p_god, t_single_philo *philo)
+{
+	if (philo->id == 0)
+	{
+		philo->fork_left = &p_god->forks[0];
+		philo->fork_right = &p_god->forks[p_god->num_of_philosophers - 1];
+		return;
+	}
+	philo->fork_left = &p_god->forks[philo->id];
+	philo->fork_right = &p_god->forks[philo->id - 1];
 }
 
 t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
@@ -77,7 +94,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	if (!philo)
 		return (NULL);
 	if (add_to_shit_list(p_god, &(p_god->shit_list), philo) == ERROR_HARD)
-		return NULL;
+		return (free(philo), NULL);
 	philo->id = i;
 	philo->no_o_t_e_p_m_eat = p_god->no_o_t_e_p_m_eat;
 	philo->time_to_die = p_god->time_to_die;
@@ -86,6 +103,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_since_last_meal = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
+	assign_forks (p_god, philo);
+	print_philo_forks(philo);
 	return (philo);
 }
 /*
@@ -129,14 +148,24 @@ void	wait_for_philo_threads(t_god_struct *p_god)
 
 void	init_mutexes(t_god_struct *p_god)
 {
+	int i;
+	
 	//pthread_mutex_init(&p_god->shit_mutex, NULL);
 	pthread_mutex_init(&p_god->print_mutex, NULL);
+	i = -1;
+	while (++i < p_god->num_of_philosophers)
+		pthread_mutex_init(&p_god->forks[i], NULL);
 }
 
 void	destroy_mutexes(t_god_struct *p_god)
 {
+	int i;
+	
 	//pthread_mutex_destroy(&p_god->shit_mutex);
 	pthread_mutex_destroy(&p_god->print_mutex);
+		i = -1;
+	while (++i < p_god->num_of_philosophers)
+		pthread_mutex_destroy(&p_god->forks[i]);
 }
 
 int	main(int argc, char **argv)

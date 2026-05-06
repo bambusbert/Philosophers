@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 13:58:47 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/06 14:08:55 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  *  without having to bubble up exit codes or stuff like that. you just call
  *  cleanup_shit_list from anywhere and call exit
  *  TODO: think about if that is stupid??
+ * 	problem: wxit is not allowed (only in bonus)
  */
 static void	cleanup_shit_list(t_shit_to_free *shit_list)
 {
