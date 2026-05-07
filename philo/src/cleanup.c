@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 11:57:40 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:37:55 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	destroy_mutexes(t_god_struct *p_god)
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
 		pthread_mutex_destroy(&p_god->forks[i]);
-	pthread_mutex_destroy(&p_god->philo_dead);
+	pthread_mutex_destroy(&p_god->simul_ended_mutex);
 }
 
 //unfortunately exit is not allowed, only in the bonus :(

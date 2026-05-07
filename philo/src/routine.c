@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 12:30:06 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:52:12 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,24 @@ void wait_until_ready (t_god_struct *p_god)
 	}
 }
 
-int update_time_and_check_simul_end (t_single_philo *philo)
+void set_end_simul(t_god_struct *p_god)
+{
+	pthread_mutex_lock(&p_god->simul_ended_mutex);
+	p_god->simul_ended = 1;
+	pthread_mutex_unlock(&p_god->simul_ended_mutex);
+}
+
+int get_end_simul(t_god_struct *p_god)
+{
+	int ret;
+	
+	pthread_mutex_lock(&p_god->simul_ended_mutex);
+	ret = p_god->simul_ended;
+	pthread_mutex_unlock(&p_god->simul_ended_mutex);
+	return ret;
+}
+
+int update_status (t_single_philo *philo)
 {
 	long long	time_since_last_meal;
 	
@@ -73,14 +90,18 @@ int update_time_and_check_simul_end (t_single_philo *philo)
 	if (time_since_last_meal > philo->time_to_die)
 	{
 		//philo starved
+		set_end_simul(philo->p_god);
 		print_status(philo->p_god, DEAD, philo->id);
 		return 1;
 	}
 	if (philo->no_o_t_e_p_m_eat == philo->times_eaten)
 	{
 		//simulation ended without anyone dying
+		set_end_simul(philo->p_god);
 		return 1;
 	}
+	if (get_end_simul(philo->p_god) == 1)
+		return 1;
 	return 0;
 }
 
@@ -101,25 +122,26 @@ void	*philo_routine(void *arg)
 	wait_until_ready(philo->p_god);
 	while (1)
 	{
-		//
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (philo->group == GROUP_ODD)
+			usleep(500);
+		if (update_status(philo) == 1)
 			break;
 		take_left_fork(philo);
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (update_status(philo) == 1)
 			break;
 		take_right_fork(philo);
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (update_status(philo) == 1)
 			break;
 		eat(philo);
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (update_status(philo) == 1)
 			break;
 		put_down_left_fork(philo);
 		put_down_right_fork(philo);
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (update_status(philo) == 1)
 			break;
 		sleeep(philo);
 		think(philo);
-		if (update_time_and_check_simul_end(philo) == 1)
+		if (update_status(philo) == 1)
 			break;
 	}
 	

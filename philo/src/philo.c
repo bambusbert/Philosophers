@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 12:03:52 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 13:52:20 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ int	main(int argc, char **argv)
 	//here i have to somehow check if the simulation ended. that can happen
 	//in 2 ways: 1. a philosopher has died. 2. a philosopher has eaten
 	//time_to_eat times
+	while (1)
+	{
+		if (p_god->simul_ended == 1)
+		{
+			//printf("simul ended\n");
+			break;
+		}
+			
+	}
+	
 	wait_for_philo_threads(p_god);
 	cleanup_everything(p_god);
 	return (0);
