@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 22:19:11 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:29:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_god_struct	*create_god_struct(char **argv)
 	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
 		return (free (p_god->forks), free(p_god), NULL);
 	p_god->start_time = return_time_in_ms();
+	p_god->ready = 0;
 	//print_p_init(p_god);
 	return (p_god);
 }
@@ -82,7 +83,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_die = p_god->time_to_die;
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
-	philo->time_since_last_meal = 0;
+	philo->last_meal_time = p_god->start_time;
+	philo->times_eaten = 0;
 	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
@@ -103,4 +105,5 @@ void	init_mutexes(t_god_struct *p_god)
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
 		pthread_mutex_init(&p_god->forks[i], NULL);
+	pthread_mutex_init(&p_god->philo_dead, NULL);
 }

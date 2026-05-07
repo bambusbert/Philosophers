@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 18:56:02 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:03:52 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
  */
 #include "../inc/philo.h"
 
+/*
+ *	TODO: check if args passed are valid (numeric, within certain limits
+*	etc.). maybe in ft_atoi itself?
+ *	if that's ok, we create the init_struct
+ *
+ */
 int	main(int argc, char **argv)
 {
 	t_god_struct	*p_god;
@@ -42,9 +48,7 @@ int	main(int argc, char **argv)
 		printf("wrong no. of args. use with 4 or 5 args\n");
 		return (1);
 	}
-	// check if args passed are valid (numeric, within certain limits etc.)
-	// maybe in ft_atoi itself?
-	// if that's ok, we create the init_struct
+
 	p_god = create_god_struct(argv);
 	if (!p_god)
 	{
@@ -59,6 +63,8 @@ int	main(int argc, char **argv)
 		cleanup_everything(p_god);
 		return (1);
 	}
+	p_god->ready = 1;
+	
 	//here i have to somehow check if the simulation ended. that can happen
 	//in 2 ways: 1. a philosopher has died. 2. a philosopher has eaten
 	//time_to_eat times

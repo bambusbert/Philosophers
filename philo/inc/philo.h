@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 22:18:39 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 12:24:46 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	long long				start_time;
+	int						ready;
 	pthread_t				*threads;
 	// pthread_mutex_t			shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
+	pthread_mutex_t			philo_dead;
 }							t_god_struct;
 
 // struct for singular philosopher
@@ -51,7 +53,8 @@ typedef struct s_single_philo
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
-	int						time_since_last_meal;
+	long long				last_meal_time;
+	int						times_eaten;
 	int						group;
 	int						is_alternating;
 	pthread_mutex_t			*fork_left;
