@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 14:06:37 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 16:53:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+
+struct s_god_struct;
+struct s_single_philo;
 
 typedef struct s_shit_to_free
 {
@@ -38,10 +41,11 @@ typedef struct s_god_struct
 	int						ready;
 	int						simul_ended;
 	pthread_t				*threads;
-	// pthread_mutex_t			shit_mutex;
+	// pthread_mutex_t		shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			simul_ended_mutex;
+	struct s_single_philo	*philos;
 }							t_god_struct;
 
 // struct for singular philosopher
@@ -54,13 +58,13 @@ typedef struct s_single_philo
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
-	long long				last_meal_time;
+	long long				time_last_meal;
 	int						times_eaten;
 	int						group;
 	int						is_alternating;
 	pthread_mutex_t			*fork_left;
 	pthread_mutex_t			*fork_right;
-	// info on left and right fork
+	struct s_single_philo	*next;	//TODO populate that variable
 }							t_single_philo;
 
 enum						e_philo_status
@@ -101,6 +105,8 @@ void						init_mutexes(t_god_struct *p_god);
 // xyxyxyxyx
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
+
+// time.c
 long long					return_time_in_ms(void);
 long long					return_delta_time(t_god_struct *p_god);
 

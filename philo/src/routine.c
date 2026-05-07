@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 14:11:22 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 16:54:16 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void	put_down_right_fork (t_single_philo *philo)
 	pthread_mutex_unlock(philo->fork_right);
 }
 
-//TODO passt das, dass last_meal_time vor dem usleep
+//TODO passt das, dass time_last_meal vor dem usleep
 //auf 0 gesetzt wird?
 int eat (t_single_philo *philo)
 {	
 	if (update_status(philo) == 1)
 		return 1;
 	print_status(philo->p_god, EATING, philo->id);
-	philo->last_meal_time = return_time_in_ms();
+	philo->time_last_meal = return_time_in_ms();
 	philo->times_eaten++;
 	if (update_status(philo) == 1)
 		return 1;
@@ -101,24 +101,25 @@ int get_end_simul(t_god_struct *p_god)
 
 int update_status (t_single_philo *philo)
 {
-	long long	time_since_last_meal;
+	long long	time_last_meal;
 	
 	if (get_end_simul(philo->p_god) == 1)
 		return 1;
-	time_since_last_meal = return_time_in_ms() - philo->last_meal_time;
-	if (time_since_last_meal > philo->time_to_die)
+	time_last_meal = return_time_in_ms() - philo->time_last_meal;
+	if (time_last_meal > philo->time_to_die)
 	{
 		//philo starved
 		set_end_simul(philo->p_god);
 		print_status(philo->p_god, DEAD, philo->id);
 		return 1;
 	}
-	if (philo->no_o_t_e_p_m_eat == philo->times_eaten)
-	{
-		//simulation ended without anyone dying
-		set_end_simul(philo->p_god);
-		return 1;
-	}
+	//TODO this is wrong, actually ALL philosophers have to 
+	// if (philo->no_o_t_e_p_m_eat == philo->times_eaten)
+	// {
+	// 	//simulation ended without anyone dying
+	// 	set_end_simul(philo->p_god);
+	// 	return 1;
+	// }
 	return 0;
 }
 
@@ -140,7 +141,7 @@ void	*philo_routine(void *arg)
 	while (1)
 	{
 		if (philo->group == GROUP_ODD)
-			usleep(500);
+			usleep(2000);
 		if (take_left_fork(philo) == 1)
 			break;
 		if (take_right_fork(philo) == 1)

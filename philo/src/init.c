@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 13:38:20 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 16:53:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ t_god_struct	*create_god_struct(char **argv)
 		return (free(p_god), NULL);
 	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
 		return (free (p_god->forks), free(p_god), NULL);
+	//TODO set that to -1 here and set it AFTER everything is initialized (when ready)
+	//again, also for each philosopher. for that i first have to create the philo list
 	p_god->start_time = return_time_in_ms();
+	p_god->philos = NULL;
 	p_god->ready = 0;
 	p_god->simul_ended = 0;
 	//print_p_init(p_god);
@@ -84,7 +87,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_die = p_god->time_to_die;
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
-	philo->last_meal_time = p_god->start_time;
+	philo->time_last_meal = p_god->start_time;
 	philo->times_eaten = 0;
 	philo->is_alternating = 0;
 	philo->p_god = p_god;
@@ -93,6 +96,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 		philo->is_alternating = 1;
 	assign_group(philo);
 	assign_forks (p_god, philo);
+	philo->next = NULL;
 	//print_philo_forks(philo);
 	return (philo);
 }

@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 13:52:20 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:41:02 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	p_god->ready = 1;
-	
+	p_god->start_time = return_time_in_ms();
+	//update_time_since_last_meal(p_god); is that needed??
 	//here i have to somehow check if the simulation ended. that can happen
 	//in 2 ways: 1. a philosopher has died. 2. a philosopher has eaten
 	//time_to_eat times
@@ -75,7 +76,9 @@ int	main(int argc, char **argv)
 			//printf("simul ended\n");
 			break;
 		}
-			
+		//here i need to check if each philosopher has eaten minimum 
+		//no_o_t_e_p_m_eat times. if yes, stop simulation
+		//i need a philosophers list in my god struct for that
 	}
 	
 	wait_for_philo_threads(p_god);
