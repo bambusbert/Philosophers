@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 13:38:05 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:06:37 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 
 // routine.c
 void						*philo_routine(void *arg);
+int							update_status(t_single_philo *philo);
 
 // print_master.c
 void						print_status(t_god_struct *p_god, int event,

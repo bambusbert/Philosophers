@@ -6,22 +6,28 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 13:52:12 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/07 14:11:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	take_left_fork (t_single_philo *philo)
+int	take_left_fork (t_single_philo *philo)
 {
+	if (update_status(philo) == 1)
+		return 1;
 	pthread_mutex_lock(philo->fork_left);
 	print_status(philo->p_god, FORK_TAKEN, philo->id);
+	return 0;
 }
 
-void	take_right_fork (t_single_philo *philo)
+int	take_right_fork (t_single_philo *philo)
 {
+	if (update_status(philo) == 1)
+		return 1;
 	pthread_mutex_lock(philo->fork_right);
 	print_status(philo->p_god, FORK_TAKEN, philo->id);
+	return 0;
 }
 
 void	put_down_left_fork (t_single_philo *philo)
@@ -36,25 +42,36 @@ void	put_down_right_fork (t_single_philo *philo)
 
 //TODO passt das, dass last_meal_time vor dem usleep
 //auf 0 gesetzt wird?
-void eat (t_single_philo *philo)
-{
+int eat (t_single_philo *philo)
+{	
+	if (update_status(philo) == 1)
+		return 1;
 	print_status(philo->p_god, EATING, philo->id);
 	philo->last_meal_time = return_time_in_ms();
 	philo->times_eaten++;
+	if (update_status(philo) == 1)
+		return 1;
 	usleep (philo->time_to_eat * 1000);
+	return 0;
 }
 
-void sleeep (t_single_philo *philo)
+int sleeep (t_single_philo *philo)
 {
+	if (update_status(philo) == 1)
+		return 1;
 	print_status(philo->p_god, SLEEPING, philo->id);
 	usleep (philo->time_to_sleep * 1000);
+	return 0;
 }
 
 //gibt keine time_to_think, wie lösen? es wird nur gethinkt wenn es nicht anders geht
-void think (t_single_philo *philo)
+int think (t_single_philo *philo)
 {
+	if (update_status(philo) == 1)
+		return 1;
 	print_status(philo->p_god, THINKING, philo->id);
 	//usleep (philo->time_to_ * 1000);
+	return 0;
 }
 
 void wait_until_ready (t_god_struct *p_god)
@@ -86,6 +103,8 @@ int update_status (t_single_philo *philo)
 {
 	long long	time_since_last_meal;
 	
+	if (get_end_simul(philo->p_god) == 1)
+		return 1;
 	time_since_last_meal = return_time_in_ms() - philo->last_meal_time;
 	if (time_since_last_meal > philo->time_to_die)
 	{
@@ -100,8 +119,6 @@ int update_status (t_single_philo *philo)
 		set_end_simul(philo->p_god);
 		return 1;
 	}
-	if (get_end_simul(philo->p_god) == 1)
-		return 1;
 	return 0;
 }
 
@@ -124,24 +141,19 @@ void	*philo_routine(void *arg)
 	{
 		if (philo->group == GROUP_ODD)
 			usleep(500);
-		if (update_status(philo) == 1)
+		if (take_left_fork(philo) == 1)
 			break;
-		take_left_fork(philo);
-		if (update_status(philo) == 1)
+		if (take_right_fork(philo) == 1)
 			break;
-		take_right_fork(philo);
-		if (update_status(philo) == 1)
-			break;
-		eat(philo);
-		if (update_status(philo) == 1)
+		// if (update_status(philo) == 1)
+		// 	break;
+		if (eat(philo) == 1)
 			break;
 		put_down_left_fork(philo);
 		put_down_right_fork(philo);
-		if (update_status(philo) == 1)
+		if (sleeep(philo) == 1)
 			break;
-		sleeep(philo);
-		think(philo);
-		if (update_status(philo) == 1)
+		if (think(philo) == 1)
 			break;
 	}
 	
