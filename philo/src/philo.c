@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 15:41:02 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:25:58 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	main(int argc, char **argv)
 		cleanup_everything(p_god);
 		return (1);
 	}
+	usleep (300);
 	p_god->ready = 1;
 	p_god->start_time = return_time_in_ms();
 	//update_time_since_last_meal(p_god); is that needed??
@@ -71,7 +72,7 @@ int	main(int argc, char **argv)
 	//time_to_eat times
 	while (1)
 	{
-		if (p_god->simul_ended == 1)
+		if (get_end_simul(p_god) == 1)
 		{
 			//printf("simul ended\n");
 			break;

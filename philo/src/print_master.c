@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 19:07:58 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 15:33:06 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:22:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	print_status(t_god_struct *p_god, int event, int id)
 	if (event == DEAD)
 		print_status_died(p_god, timestamp, id);
 	//pthread_mutex_lock(&p_god->simul_ended_mutex);
-	if (p_god->simul_ended == 1)
+	if (get_end_simul(p_god) == 1)
 	{
 		//pthread_mutex_unlock(&p_god->simul_ended_mutex);
 		return ;

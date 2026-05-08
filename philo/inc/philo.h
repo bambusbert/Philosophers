@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 16:53:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:24:23 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_single_philo
 	int						is_alternating;
 	pthread_mutex_t			*fork_left;
 	pthread_mutex_t			*fork_right;
-	struct s_single_philo	*next;	//TODO populate that variable
+	struct s_single_philo *next; // TODO populate that variable
 }							t_single_philo;
 
 enum						e_philo_status
@@ -117,6 +117,7 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 // routine.c
 void						*philo_routine(void *arg);
 int							update_status(t_single_philo *philo);
+int							get_end_simul(t_god_struct *p_god);
 
 // print_master.c
 void						print_status(t_god_struct *p_god, int event,
