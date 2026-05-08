@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:25:58 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:50:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main(int argc, char **argv)
 		printf("wrong no. of args. use with 4 or 5 args\n");
 		return (1);
 	}
-
 	p_god = create_god_struct(argv);
 	if (!p_god)
 	{
@@ -64,7 +63,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	usleep (300);
-	p_god->ready = 1;
+	set_simul_ready (p_god);
 	p_god->start_time = return_time_in_ms();
 	//update_time_since_last_meal(p_god); is that needed??
 	//here i have to somehow check if the simulation ended. that can happen

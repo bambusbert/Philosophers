@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/07 16:53:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:44:40 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	init_mutexes(t_god_struct *p_god)
 {
 	int i;
 	
-	//pthread_mutex_init(&p_god->shit_mutex, NULL);
+	pthread_mutex_init(&p_god->simul_ready_mutex, NULL);
 	pthread_mutex_init(&p_god->print_mutex, NULL);
 	i = -1;
 	while (++i < p_god->num_of_philosophers)

@@ -6,11 +6,18 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 19:07:58 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:22:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 15:09:11 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	print_status_error (t_god_struct *p_god, char *msg)
+{
+	pthread_mutex_lock(&p_god->print_mutex);
+	printf("%s\n", msg);
+	pthread_mutex_unlock(&p_god->print_mutex);
+}
 
 /*
  *	TODO think about if i need a separate logic for death msgs
@@ -22,13 +29,10 @@ void	print_status(t_god_struct *p_god, int event, int id)
 	timestamp = return_delta_time(p_god);
 	if (event == DEAD)
 		print_status_died(p_god, timestamp, id);
-	//pthread_mutex_lock(&p_god->simul_ended_mutex);
 	if (get_end_simul(p_god) == 1)
 	{
-		//pthread_mutex_unlock(&p_god->simul_ended_mutex);
 		return ;
 	}
-	//pthread_mutex_unlock(&p_god->simul_ended_mutex);
 	if (event == FORK_TAKEN)
 		print_status_fork(p_god, timestamp, id);
 	else if (event == EATING)
@@ -38,9 +42,5 @@ void	print_status(t_god_struct *p_god, int event, int id)
 	else if (event == THINKING)
 		print_status_thinking(p_god, timestamp, id);
 	else
-	{
-		pthread_mutex_lock(&p_god->print_mutex);
-		printf("if you see that something drastically went wrong\n");
-		pthread_mutex_unlock(&p_god->print_mutex);
-	}
+		print_status_error(p_god, "if you see that something drastically went wrong");
 }

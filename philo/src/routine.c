@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:31:59 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 15:11:37 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,26 +75,10 @@ int	think(t_single_philo *philo)
 
 void	wait_until_ready(t_god_struct *p_god)
 {
-	while (p_god->ready == 0)
+	while (get_simul_ready(p_god) == 0)
 	{
+		usleep (200);
 	}
-}
-
-void	set_end_simul(t_god_struct *p_god)
-{
-	pthread_mutex_lock(&p_god->simul_ended_mutex);
-	p_god->simul_ended = 1;
-	pthread_mutex_unlock(&p_god->simul_ended_mutex);
-}
-
-int	get_end_simul(t_god_struct *p_god)
-{
-	int	ret;
-
-	pthread_mutex_lock(&p_god->simul_ended_mutex);
-	ret = p_god->simul_ended;
-	pthread_mutex_unlock(&p_god->simul_ended_mutex);
-	return (ret);
 }
 
 int	update_status(t_single_philo *philo)
@@ -127,9 +111,16 @@ int	update_status(t_single_philo *philo)
 
 	if (ret)
 } */
-// TODO:	create 2 different routines. A is applied to odd philosophers and 2 to even.
-//			if there is an odd number of philosophers there has to be one that changes
-//			groups after each cycle
+
+/* 		if (philo->group == GROUP_ODD)
+			usleep(2000);
+		if (take_left_fork(philo) == 1)
+			break ;
+		if (take_right_fork(philo) == 1)
+		{
+			put_down_left_fork(philo);
+			break ;
+		} */
 void	*philo_routine(void *arg)
 {
 	t_single_philo *philo;
@@ -140,18 +131,29 @@ void	*philo_routine(void *arg)
 	while (1)
 	{
 		if (philo->group == GROUP_ODD)
-			usleep(2000);
-		if (take_left_fork(philo) == 1)
-			break ;
-		if (take_right_fork(philo) == 1)
 		{
-			put_down_left_fork(philo);
-			break ;
+			if (take_left_fork(philo) == 1)
+				break ;
+			if (take_right_fork(philo) == 1)
+			{
+				put_down_left_fork(philo);
+				break ;
+			}
+		}
+		else
+		{
+			if (take_right_fork(philo) == 1)
+				break ;
+			if (take_left_fork(philo) == 1)
+			{
+				put_down_right_fork(philo);
+				break;
+			}
 		}
 		if (eat(philo) == 1)
 		{
 			put_down_left_fork(philo);
-			take_right_fork(philo);
+			put_down_right_fork(philo);
 			break ;
 		}
 		put_down_left_fork(philo);

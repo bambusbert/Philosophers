@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:24:23 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/08 14:51:46 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_god_struct
 	// pthread_mutex_t		shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
+	pthread_mutex_t			simul_ready_mutex;
 	pthread_mutex_t			simul_ended_mutex;
 	struct s_single_philo	*philos;
 }							t_god_struct;
@@ -105,6 +106,7 @@ void						init_mutexes(t_god_struct *p_god);
 // xyxyxyxyx
 int							ft_atoi(char *arg);
 void						*ft_calloc(size_t nmemb, size_t size);
+int							get_simul_ready(t_god_struct *p_god);
 
 // time.c
 long long					return_time_in_ms(void);
@@ -117,7 +119,6 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 // routine.c
 void						*philo_routine(void *arg);
 int							update_status(t_single_philo *philo);
-int							get_end_simul(t_god_struct *p_god);
 
 // print_master.c
 void						print_status(t_god_struct *p_god, int event,
@@ -140,5 +141,11 @@ void						cleanup_everything(t_god_struct *p_god);
 int							add_to_shit_list(t_god_struct *p_god,
 								t_shit_to_free **shit_list, void *elem);
 void						destroy_mutexes(t_god_struct *p_god);
+
+// getters_setters.c
+void						set_simul_ready(t_god_struct *p_god);
+int							get_simul_ready(t_god_struct *p_god);
+void						set_end_simul(t_god_struct *p_god);
+int							get_end_simul(t_god_struct *p_god);
 
 #endif
