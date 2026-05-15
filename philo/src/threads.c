@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:12:55 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 17:06:03 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 18:54:33 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	create_philo_thread(t_god_struct *p_god, int i)
 	if (pthread_create(&(p_god->threads[i]), NULL, philo_routine,
 			(void *)philo) != 0)
 			{
-				printf("errrrr\n");
+				//printf("errrrr\n");
 				//pthread_join(philo->p_god->threads[i], NULL);
 				return (ERROR_HARD);
 			}

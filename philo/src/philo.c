@@ -6,11 +6,9 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 15:13:00 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:15:41 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// TODO exit is not allowed! only in bonus :(
 
 /*
  * THOUGHTS:
@@ -23,9 +21,8 @@
  *      successfull. If it was, that means that eachn philosopher is in a
  *      ready state
  * TODOs:
- * -	implement the sleep/think/eat cycle
- * -	add fork locking / unlocking
- * -	add death & time_to_eat monitoring
+ * -	create own ft_usleep function that continously check if simul_ended
+ * 		flag is set.
  * -	implement input validation
  * -	advance clanup.c & init.c error handling
  */
@@ -57,6 +54,57 @@ int all_philos_have_eaten_enough (t_god_struct *p_god)
 	return 1;
 }
 
+void monitor (t_god_struct *p_god)
+{
+	usleep (300);
+	set_simul_ready (p_god);
+	p_god->start_time = return_time_in_ms();
+	while (1)
+	{
+		if (all_philos_have_eaten_enough(p_god))
+			set_end_simul(p_god);
+		if (get_end_simul(p_god) == 1)
+			break;
+	}
+	wait_for_philo_threads(p_god);
+	cleanup_everything(p_god);
+}
+
+int input_not_numeric (char **argv)
+{
+	int i;
+	int j;
+
+	i = 1;
+	while (i < 5)
+	{
+		j = 0;
+		while (argv[i][j])
+		{
+			if (argv[i][j] < 48 || argv[i][j] > 57)
+				return ERROR_HARD;
+			j++;
+		}
+		i++;
+	}
+	return RET_OK;
+}
+
+int check_input (int argc, char **argv)
+{
+	if (argc < 5 || argc > 6)
+	{
+		printf("wrong no. of args. use with 4 or 5 args\n");
+		return (ERROR_HARD);
+	}
+	if (input_not_numeric(argv) == ERROR_HARD)
+	{
+		printf("non-numeric input detected\n");
+		return (ERROR_HARD);
+	}
+	return RET_OK;
+}
+
 /*
  *	TODO: check if args passed are valid (numeric, within certain limits
 *	etc.). maybe in ft_atoi itself?
@@ -69,15 +117,12 @@ int	main(int argc, char **argv)
 	t_shit_to_free	*shit_list;
 
 	shit_list = NULL;
-	if (argc < 5 || argc > 6)
-	{
-		printf("wrong no. of args. use with 4 or 5 args\n");
+	if (check_input(argc, argv) == ERROR_HARD)
 		return (1);
-	}
 	p_god = create_god_struct(argv);
 	if (!p_god)
 	{
-		printf("malloc error in create_god_struct\n");
+		printf("malloc error in create_god_struct or argument INT_MAX overflow\n");
 		cleanup_everything(p_god);
 		return (1);
 	}
@@ -88,29 +133,6 @@ int	main(int argc, char **argv)
 		cleanup_everything(p_god);
 		return (1);
 	}
-	usleep (300);
-	set_simul_ready (p_god);
-	p_god->start_time = return_time_in_ms();
-	//update_time_since_last_meal(p_god); is that needed??
-	//here i have to somehow check if the simulation ended. that can happen
-	//in 2 ways: 1. a philosopher has died. 2. a philosopher has eaten
-	//time_to_eat times
-	while (1)
-	{
-		if (all_philos_have_eaten_enough(p_god))
-			set_end_simul(p_god);
-		if (get_end_simul(p_god) == 1)
-		{
-			//printf("simul ended\n");
-			break;
-		}
-		//here i need to check if each philosopher has eaten minimum 
-		//no_o_t_e_p_m_eat times. if yes, stop simulation
-		//i need a philosophers list in my god struct for that
-		//usleep (300);
-	}
-	
-	wait_for_philo_threads(p_god);
-	cleanup_everything(p_god);
+	monitor(p_god);
 	return (0);
 }

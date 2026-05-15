@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 12:17:53 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:29:26 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,29 @@ static void assign_forks(t_god_struct *p_god, t_single_philo *philo)
 	philo->fork_right = &p_god->forks[philo->id - 1];
 }
 
-void fill_args(t_god_struct *p_god, char **argv)
+int fill_args(t_god_struct *p_god, char **argv)
 {
 	p_god->num_of_philosophers = ft_atoi(argv[1]);
+	if (p_god->num_of_philosophers == ERROR_HARD)
+		return ERROR_HARD;
 	p_god->time_to_die = ft_atoi(argv[2]);
+	if (p_god->time_to_die == ERROR_HARD)
+		return ERROR_HARD;
 	p_god->time_to_eat = ft_atoi(argv[3]);
+	if (p_god->time_to_eat == ERROR_HARD)
+		return ERROR_HARD;
 	p_god->time_to_sleep = ft_atoi(argv[4]);
+	if (p_god->time_to_sleep == ERROR_HARD)
+		return ERROR_HARD;
 	if (argv[5])
+	{
 		p_god->no_o_t_e_p_m_eat = ft_atoi(argv[5]);
+		if (p_god->no_o_t_e_p_m_eat == ERROR_HARD)
+			return ERROR_HARD;
+	}
 	else
 		p_god->no_o_t_e_p_m_eat = -1;
+	return RET_OK;
 }
 
 t_god_struct	*create_god_struct(char **argv)
@@ -43,7 +56,8 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god = ft_calloc(1, sizeof(t_god_struct));
 	if (!p_god)
 		return (NULL);
-	fill_args(p_god, argv);
+	if (fill_args(p_god, argv) == ERROR_HARD)
+		return NULL;
 	p_god->shit_list = NULL;
 	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
 	if (!p_god->threads)
@@ -61,7 +75,6 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god->philos = NULL;
 	p_god->ready = 0;
 	p_god->simul_ended = 0;
-	//print_p_init(p_god);
 	return (p_god);
 }
 
@@ -93,8 +106,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_die = p_god->time_to_die;
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
-	philo->time_last_meal = p_god->start_time; //TODO das mutexen??
-	philo->times_eaten = 0; //TODO das mutexen??
+	philo->time_last_meal = p_god->start_time;
+	philo->times_eaten = 0;
 	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
@@ -107,9 +120,10 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	return (philo);
 }
 
+//TODO protect against failure
 void	init_global_mutexes(t_god_struct *p_god)
 {
-	int i;
+	long i;
 	
 	pthread_mutex_init(&p_god->simul_ready_mutex, NULL);
 	pthread_mutex_init(&p_god->print_mutex, NULL);

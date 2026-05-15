@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 16:58:17 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:24:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	cleanup_shit_list(t_shit_to_free *shit_list)
 		free(current);
 		current = next;
 	}
-	
 }
 
 /*
@@ -74,31 +73,47 @@ void	destroy_philo_mutexes(t_god_struct *p_god)
 {
 	t_single_philo *cur_philo;
 
+	if (!p_god)
+		return ;
 	cur_philo = p_god->philos;
 	while (cur_philo)
 	{
-		pthread_mutex_destroy(&cur_philo->time_last_meal_mutex);
+		if (&cur_philo->time_last_meal_mutex)
+			pthread_mutex_destroy(&cur_philo->time_last_meal_mutex);
+		if (&cur_philo->times_eaten_mutex)
 		pthread_mutex_destroy(&cur_philo->times_eaten_mutex);
 		cur_philo = cur_philo->next;
 	}
 }
 
+//TODO before destruction check if it exists
 void	destroy_global_mutexes(t_god_struct *p_god)
 {
 	int i;
-	
-	pthread_mutex_destroy(&p_god->simul_ready_mutex);
-	pthread_mutex_destroy(&p_god->print_mutex);
+
+	if (!p_god)
+		return ;
+	if (&p_god->simul_ready_mutex)
+		pthread_mutex_destroy(&p_god->simul_ready_mutex);
+	if (&p_god->print_mutex)
+		pthread_mutex_destroy(&p_god->print_mutex);
 	i = -1;
 	while (++i < p_god->num_of_philosophers)
-		pthread_mutex_destroy(&p_god->forks[i]);
-	pthread_mutex_destroy(&p_god->simul_ended_mutex);
-	pthread_mutex_destroy(&p_god->philo_add_mutex);
+	{
+		if (&p_god->forks[i])
+			pthread_mutex_destroy(&p_god->forks[i]);
+	}
+	if (&p_god->simul_ended_mutex)
+		pthread_mutex_destroy(&p_god->simul_ended_mutex);
+	if (&p_god->philo_add_mutex)
+		pthread_mutex_destroy(&p_god->philo_add_mutex);
 }
 
 //TODO on error join created threads
 void	cleanup_everything(t_god_struct *p_god)
 {
+	if (!p_god)
+		return ;
     destroy_global_mutexes(p_god);
 	destroy_philo_mutexes(p_god);
 	cleanup_shit_list(p_god->shit_list);

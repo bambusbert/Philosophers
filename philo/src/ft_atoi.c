@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:51:49 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/04 15:29:56 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:20:02 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,31 @@ int	ft_atoi(char *nptr)
 {
 	int			i;
 	long long	num;
+
+	if (!nptr)
+		return (0);
+	nptr = shift_whitespace(nptr);
+	num = 0;
+	i = 0;
+	while (nptr[i])
+	{
+		if (!(nptr[i] >= '0' && nptr[i] <= '9'))
+			break ;
+		num *= 10;
+		if (num > INT_MAX)
+			return ERROR_HARD;
+		num += nptr[i] - 48;
+		if (num > INT_MAX)
+			return ERROR_HARD;
+		i++;
+	}
+	return ((int)num);
+}
+
+/* int	ft_atoi(char *nptr)
+{
+	int			i;
+	long long	num;
 	int			minus;
 
 	if (!nptr)
@@ -73,7 +98,7 @@ int	ft_atoi(char *nptr)
 	if (minus == 3)
 		num *= (-1);
 	return ((int)num);
-}
+} */
 
 /* int	check_digit(long long *num, int neg, long long limit, char c)
 {
