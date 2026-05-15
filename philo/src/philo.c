@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 12:15:58 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:13:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int	main(int argc, char **argv)
 		//here i need to check if each philosopher has eaten minimum 
 		//no_o_t_e_p_m_eat times. if yes, stop simulation
 		//i need a philosophers list in my god struct for that
+		//usleep (300);
 	}
 	
 	wait_for_philo_threads(p_god);

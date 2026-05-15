@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 12:19:02 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:25:12 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,15 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	long long				start_time;
+	pthread_mutex_t			simul_ready_mutex;
 	int						ready;
+	pthread_mutex_t			simul_ended_mutex;
 	int						simul_ended;
 	pthread_t				*threads;
 	// pthread_mutex_t		shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			philo_add_mutex;
-	pthread_mutex_t			simul_ready_mutex;
-	pthread_mutex_t			simul_ended_mutex;
 	struct s_single_philo	*philos;
 }							t_god_struct;
 

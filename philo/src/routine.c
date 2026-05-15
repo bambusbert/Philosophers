@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 12:16:16 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:11:24 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,43 @@ void	*philo_routine(void *arg)
 	{
 		if (philo->group == GROUP_ODD)
 		{
+			usleep(500);
+		}
+		
+			if (take_right_fork(philo) == 1)
+				break ;
+			if (take_left_fork(philo) == 1)
+			{
+				put_down_right_fork(philo);
+				break;
+			}
+		if (eat(philo) == 1)
+		{
+			put_down_left_fork(philo);
+			put_down_right_fork(philo);
+			break ;
+		}
+		put_down_left_fork(philo);
+		put_down_right_fork(philo);
+		if (sleeep(philo) == 1)
+			break ;
+		if (think(philo) == 1)
+			break ;
+	}
+	return ((void *)NULL);
+}
+
+/* void	*philo_routine(void *arg)
+{
+	t_single_philo *philo;
+	
+	philo = (t_single_philo *)arg;
+	// say_hello(philo);
+	wait_until_ready(philo->p_god);
+	while (1)
+	{
+		if (philo->group == GROUP_ODD)
+		{
 			if (take_left_fork(philo) == 1)
 				break ;
 			if (take_right_fork(philo) == 1)
@@ -160,4 +197,4 @@ void	*philo_routine(void *arg)
 			break ;
 	}
 	return ((void *)NULL);
-}
+} */

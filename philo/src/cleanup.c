@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 12:17:53 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:12:08 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,12 @@ static void	cleanup_shit_list(t_shit_to_free *shit_list)
 	while (current)
 	{
 		next = current->next;
-		free(current->shit);
+		if (current->shit)
+			free(current->shit);
 		free(current);
 		current = next;
 	}
+	
 }
 
 /*
@@ -96,9 +98,9 @@ void	destroy_global_mutexes(t_god_struct *p_god)
 
 void	cleanup_everything(t_god_struct *p_god)
 {
-	cleanup_shit_list(p_god->shit_list);
     destroy_global_mutexes(p_god);
-	destroy_philo_mutexes (p_god);
+	destroy_philo_mutexes(p_god);
+	cleanup_shit_list(p_god->shit_list);
 	free(p_god);
 }
 
