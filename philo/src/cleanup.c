@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 15:12:08 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 16:58:17 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	destroy_global_mutexes(t_god_struct *p_god)
 	pthread_mutex_destroy(&p_god->philo_add_mutex);
 }
 
+//TODO on error join created threads
 void	cleanup_everything(t_god_struct *p_god)
 {
     destroy_global_mutexes(p_god);
