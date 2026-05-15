@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 11:05:16 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 12:17:53 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,6 @@ static void	cleanup_shit_list(t_shit_to_free *shit_list)
 		free(current);
 		current = next;
 	}
-}
-
-void	cleanup_everything(t_god_struct *p_god)
-{
-	cleanup_shit_list(p_god->shit_list);
-    destroy_mutexes(p_god);
-	free(p_god);
 }
 
 /*
@@ -75,7 +68,20 @@ int	add_to_shit_list(t_god_struct *p_god, t_shit_to_free **shit_list,
 	return (0);
 }
 
-void	destroy_mutexes(t_god_struct *p_god)
+void	destroy_philo_mutexes(t_god_struct *p_god)
+{
+	t_single_philo *cur_philo;
+
+	cur_philo = p_god->philos;
+	while (cur_philo)
+	{
+		pthread_mutex_destroy(&cur_philo->time_last_meal_mutex);
+		pthread_mutex_destroy(&cur_philo->times_eaten_mutex);
+		cur_philo = cur_philo->next;
+	}
+}
+
+void	destroy_global_mutexes(t_god_struct *p_god)
 {
 	int i;
 	
@@ -86,6 +92,14 @@ void	destroy_mutexes(t_god_struct *p_god)
 		pthread_mutex_destroy(&p_god->forks[i]);
 	pthread_mutex_destroy(&p_god->simul_ended_mutex);
 	pthread_mutex_destroy(&p_god->philo_add_mutex);
+}
+
+void	cleanup_everything(t_god_struct *p_god)
+{
+	cleanup_shit_list(p_god->shit_list);
+    destroy_global_mutexes(p_god);
+	destroy_philo_mutexes (p_god);
+	free(p_god);
 }
 
 //unfortunately exit is not allowed, only in the bonus :(

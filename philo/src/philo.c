@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 11:24:51 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 12:15:58 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int one_philo_has_eaten_enough(t_single_philo *philo)
 {
 	int ret;
 
-	if (philo->times_eaten >= philo->no_o_t_e_p_m_eat)
+	//if (philo->times_eaten >= philo->no_o_t_e_p_m_eat)
+	if (get_times_eaten(philo) >= philo->no_o_t_e_p_m_eat)
 		return 1;
 	return 0;
 }
@@ -80,7 +81,7 @@ int	main(int argc, char **argv)
 		cleanup_everything(p_god);
 		return (1);
 	}
-	init_mutexes(p_god);
+	init_global_mutexes(p_god);
 	if (create_philo_threads(p_god) == ERROR_HARD)
 	{
 		printf("critical error in create_philo_threads\n");

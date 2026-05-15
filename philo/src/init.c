@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 11:04:54 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 12:17:53 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,12 @@ void	assign_group(t_single_philo *philo)
 		philo->group = GROUP_ODD;
 }
 
+void init_philo_mutexes(t_single_philo *philo)
+{
+	pthread_mutex_init(&philo->time_last_meal_mutex, NULL);
+	pthread_mutex_init(&philo->times_eaten_mutex, NULL);
+}
+
 t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 {
 	t_single_philo	*philo;
@@ -87,8 +93,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_die = p_god->time_to_die;
 	philo->time_to_eat = p_god->time_to_eat;
 	philo->time_to_sleep = p_god->time_to_sleep;
-	philo->time_last_meal = p_god->start_time;
-	philo->times_eaten = 0;
+	philo->time_last_meal = p_god->start_time; //TODO das mutexen??
+	philo->times_eaten = 0; //TODO das mutexen??
 	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
@@ -97,11 +103,11 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	assign_group(philo);
 	assign_forks (p_god, philo);
 	philo->next = NULL;
-	//print_philo_forks(philo);
+	init_philo_mutexes (philo);
 	return (philo);
 }
 
-void	init_mutexes(t_god_struct *p_god)
+void	init_global_mutexes(t_god_struct *p_god)
 {
 	int i;
 	

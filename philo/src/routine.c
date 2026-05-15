@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 15:11:37 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 12:16:16 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ int	eat(t_single_philo *philo)
 	if (update_status(philo) == 1)
 		return (1);
 	print_status(philo->p_god, EATING, philo->id);
-	philo->time_last_meal = return_time_in_ms();
-	philo->times_eaten++;
+	//philo->time_last_meal = return_time_in_ms();
+	set_t_last_meal(philo, return_time_in_ms());
+	//philo->times_eaten++;
+	increment_times_eaten(philo);
 	if (update_status(philo) == 1)
 		return (1);
 	usleep(philo->time_to_eat * 1000);
@@ -87,7 +89,8 @@ int	update_status(t_single_philo *philo)
 
 	if (get_end_simul(philo->p_god) == 1)
 		return (1);
-	time_last_meal = return_time_in_ms() - philo->time_last_meal;
+	//time_last_meal = return_time_in_ms() - philo->time_last_meal;
+	time_last_meal = return_time_in_ms() - get_t_last_meal(philo);
 	if (time_last_meal > philo->time_to_die)
 	{
 		// philo starved
@@ -95,13 +98,6 @@ int	update_status(t_single_philo *philo)
 		print_status(philo->p_god, DEAD, philo->id);
 		return (1);
 	}
-	// TODO this is wrong, actually ALL philosophers have to
-	// if (philo->no_o_t_e_p_m_eat == philo->times_eaten)
-	// {
-	// 	//simulation ended without anyone dying
-	// 	set_end_simul(philo->p_god);
-	// 	return (1);
-	// }
 	return (0);
 }
 

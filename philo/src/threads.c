@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:12:55 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 11:15:25 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 11:39:39 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void add_philo_to_god_struct (t_single_philo *philo, t_god_struct *p_god)
 	
 	if (p_god->philos == NULL)
 	{
-		p_god->philos = p_god;
+		p_god->philos = philo;
 		return ;
 	}
 	current_philo = p_god->philos;

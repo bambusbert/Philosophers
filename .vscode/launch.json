@@ -8,7 +8,7 @@
             "program": "${workspaceFolder}/philo/philo",
             //"args": ["4", "400", "150", "150"],
             // "args": ["4", "400", "150", "150"],
-            "args": ["4", "400", "150", "150", "5"],
+            "args": ["4", "400", "150", "150", "2"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
