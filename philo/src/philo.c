@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:50:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 11:24:51 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,31 @@
  * -	advance clanup.c & init.c error handling
  */
 #include "../inc/philo.h"
+
+int one_philo_has_eaten_enough(t_single_philo *philo)
+{
+	int ret;
+
+	if (philo->times_eaten >= philo->no_o_t_e_p_m_eat)
+		return 1;
+	return 0;
+}
+
+int all_philos_have_eaten_enough (t_god_struct *p_god)
+{
+	t_single_philo *cur_philo;
+
+	if (p_god->no_o_t_e_p_m_eat == -1)
+		return 0;
+	cur_philo = p_god->philos;
+	while (cur_philo)
+	{
+		if (!one_philo_has_eaten_enough(cur_philo))
+			return 0;
+		cur_philo = cur_philo->next;
+	}
+	return 1;
+}
 
 /*
  *	TODO: check if args passed are valid (numeric, within certain limits
@@ -71,6 +96,8 @@ int	main(int argc, char **argv)
 	//time_to_eat times
 	while (1)
 	{
+		if (all_philos_have_eaten_enough(p_god))
+			set_end_simul(p_god);
 		if (get_end_simul(p_god) == 1)
 		{
 			//printf("simul ended\n");

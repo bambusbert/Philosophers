@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/08 14:51:46 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 11:04:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_god_struct
 	// pthread_mutex_t		shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
+	pthread_mutex_t			philo_add_mutex;
 	pthread_mutex_t			simul_ready_mutex;
 	pthread_mutex_t			simul_ended_mutex;
 	struct s_single_philo	*philos;

@@ -6,11 +6,30 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:12:55 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/06 18:13:22 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 11:15:25 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+//TODO do i need mutex here?
+//i think no because it is before i call it before pthread_create
+void add_philo_to_god_struct (t_single_philo *philo, t_god_struct *p_god)
+{
+	t_single_philo *current_philo;
+	
+	if (p_god->philos == NULL)
+	{
+		p_god->philos = p_god;
+		return ;
+	}
+	current_philo = p_god->philos;
+	while (current_philo->next != NULL)
+	{
+		current_philo = current_philo->next;
+	}
+	current_philo->next = philo;
+}
 
 /*
  *	1. initialize the philo struct
@@ -23,6 +42,7 @@ static int	create_philo_thread(t_god_struct *p_god, int i)
 	philo = init_philo_struct(p_god, i);
 	if (!philo)
 		return (ERROR_HARD);
+	add_philo_to_god_struct(philo, p_god);
 	if (pthread_create(&(p_god->threads[i]), NULL, philo_routine,
 			(void *)philo) != 0)
 		return (ERROR_HARD);
