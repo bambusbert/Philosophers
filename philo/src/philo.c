@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:15:41 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:46:17 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,86 +28,50 @@
  */
 #include "../inc/philo.h"
 
-int one_philo_has_eaten_enough(t_single_philo *philo)
+int	one_philo_has_eaten_enough(t_single_philo *philo)
 {
-	int ret;
+	int	ret;
 
-	//if (philo->times_eaten >= philo->no_o_t_e_p_m_eat)
 	if (get_times_eaten(philo) >= philo->no_o_t_e_p_m_eat)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 }
 
-int all_philos_have_eaten_enough (t_god_struct *p_god)
+int	all_philos_have_eaten_enough(t_god_struct *p_god)
 {
-	t_single_philo *cur_philo;
+	t_single_philo	*cur_philo;
 
 	if (p_god->no_o_t_e_p_m_eat == -1)
-		return 0;
+		return (0);
 	cur_philo = p_god->philos;
 	while (cur_philo)
 	{
 		if (!one_philo_has_eaten_enough(cur_philo))
-			return 0;
+			return (0);
 		cur_philo = cur_philo->next;
 	}
-	return 1;
+	return (1);
 }
 
-void monitor (t_god_struct *p_god)
+void	monitor(t_god_struct *p_god)
 {
-	usleep (300);
-	set_simul_ready (p_god);
+	usleep(300);
+	set_simul_ready(p_god);
 	p_god->start_time = return_time_in_ms();
 	while (1)
 	{
 		if (all_philos_have_eaten_enough(p_god))
 			set_end_simul(p_god);
 		if (get_end_simul(p_god) == 1)
-			break;
+			break ;
 	}
 	wait_for_philo_threads(p_god);
 	cleanup_everything(p_god);
 }
 
-int input_not_numeric (char **argv)
-{
-	int i;
-	int j;
-
-	i = 1;
-	while (i < 5)
-	{
-		j = 0;
-		while (argv[i][j])
-		{
-			if (argv[i][j] < 48 || argv[i][j] > 57)
-				return ERROR_HARD;
-			j++;
-		}
-		i++;
-	}
-	return RET_OK;
-}
-
-int check_input (int argc, char **argv)
-{
-	if (argc < 5 || argc > 6)
-	{
-		printf("wrong no. of args. use with 4 or 5 args\n");
-		return (ERROR_HARD);
-	}
-	if (input_not_numeric(argv) == ERROR_HARD)
-	{
-		printf("non-numeric input detected\n");
-		return (ERROR_HARD);
-	}
-	return RET_OK;
-}
-
 /*
  *	TODO: check if args passed are valid (numeric, within certain limits
-*	etc.). maybe in ft_atoi itself?
+ *	etc.). maybe in ft_atoi itself?
  *	if that's ok, we create the init_struct
  *
  */
@@ -122,7 +86,8 @@ int	main(int argc, char **argv)
 	p_god = create_god_struct(argv);
 	if (!p_god)
 	{
-		printf("malloc error in create_god_struct or argument INT_MAX overflow\n");
+		printf("malloc error in create_god_struct or argument \
+			INT_MAX overflow\n");
 		cleanup_everything(p_god);
 		return (1);
 	}

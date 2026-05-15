@@ -6,47 +6,47 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:29:26 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:51:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void assign_forks(t_god_struct *p_god, t_single_philo *philo)
+static void	assign_forks(t_god_struct *p_god, t_single_philo *philo)
 {
 	if (philo->id == 0)
 	{
 		philo->fork_left = &p_god->forks[0];
-		philo->fork_right = &p_god->forks[p_god->num_of_philosophers - 1];
-		return;
+		philo->fork_right = &p_god->forks[p_god->no_phil - 1];
+		return ;
 	}
 	philo->fork_left = &p_god->forks[philo->id];
 	philo->fork_right = &p_god->forks[philo->id - 1];
 }
 
-int fill_args(t_god_struct *p_god, char **argv)
+int	fill_args(t_god_struct *p_god, char **argv)
 {
-	p_god->num_of_philosophers = ft_atoi(argv[1]);
-	if (p_god->num_of_philosophers == ERROR_HARD)
-		return ERROR_HARD;
+	p_god->no_phil = ft_atoi(argv[1]);
+	if (p_god->no_phil == ERROR_HARD)
+		return (ERROR_HARD);
 	p_god->time_to_die = ft_atoi(argv[2]);
 	if (p_god->time_to_die == ERROR_HARD)
-		return ERROR_HARD;
+		return (ERROR_HARD);
 	p_god->time_to_eat = ft_atoi(argv[3]);
 	if (p_god->time_to_eat == ERROR_HARD)
-		return ERROR_HARD;
+		return (ERROR_HARD);
 	p_god->time_to_sleep = ft_atoi(argv[4]);
 	if (p_god->time_to_sleep == ERROR_HARD)
-		return ERROR_HARD;
+		return (ERROR_HARD);
 	if (argv[5])
 	{
 		p_god->no_o_t_e_p_m_eat = ft_atoi(argv[5]);
 		if (p_god->no_o_t_e_p_m_eat == ERROR_HARD)
-			return ERROR_HARD;
+			return (ERROR_HARD);
 	}
 	else
 		p_god->no_o_t_e_p_m_eat = -1;
-	return RET_OK;
+	return (RET_OK);
 }
 
 t_god_struct	*create_god_struct(char **argv)
@@ -57,20 +57,20 @@ t_god_struct	*create_god_struct(char **argv)
 	if (!p_god)
 		return (NULL);
 	if (fill_args(p_god, argv) == ERROR_HARD)
-		return NULL;
+		return (NULL);
 	p_god->shit_list = NULL;
-	p_god->threads = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_t));
+	p_god->threads = ft_calloc(p_god->no_phil, sizeof(pthread_t));
 	if (!p_god->threads)
 		return (free(p_god), NULL);
-	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->threads) == ERROR_HARD)
-		return (free (p_god->threads),free(p_god), NULL);
-	p_god->forks = ft_calloc(p_god->num_of_philosophers, sizeof(pthread_mutex_t));
+	if (add_to_shit_list(p_god, &(p_god->shit_list),
+			(void *)p_god->threads) == ERROR_HARD)
+		return (free(p_god->threads), free(p_god), NULL);
+	p_god->forks = ft_calloc(p_god->no_phil, sizeof(pthread_mutex_t));
 	if (!p_god->forks)
 		return (free(p_god), NULL);
-	if (add_to_shit_list(p_god, &(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
-		return (free (p_god->forks), free(p_god), NULL);
-	//TODO set that to -1 here and set it AFTER everything is initialized (when ready)
-	//again, also for each philosopher. for that i first have to create the philo list
+	if (add_to_shit_list(p_god, &(p_god->shit_list),
+			(void *)p_god->forks) == ERROR_HARD)
+		return (free(p_god->forks), free(p_god), NULL);
 	p_god->start_time = return_time_in_ms();
 	p_god->philos = NULL;
 	p_god->ready = 0;
@@ -84,12 +84,6 @@ void	assign_group(t_single_philo *philo)
 		philo->group = GROUP_EVEN;
 	else
 		philo->group = GROUP_ODD;
-}
-
-void init_philo_mutexes(t_single_philo *philo)
-{
-	pthread_mutex_init(&philo->time_last_meal_mutex, NULL);
-	pthread_mutex_init(&philo->times_eaten_mutex, NULL);
 }
 
 t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
@@ -111,25 +105,11 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
-	if (i == p_god->num_of_philosophers - 1 && philo->id % 2 == 0)
+	if (i == p_god->no_phil - 1 && philo->id % 2 == 0)
 		philo->is_alternating = 1;
 	assign_group(philo);
-	assign_forks (p_god, philo);
+	assign_forks(p_god, philo);
 	philo->next = NULL;
-	init_philo_mutexes (philo);
+	init_philo_mutexes(philo);
 	return (philo);
-}
-
-//TODO protect against failure
-void	init_global_mutexes(t_god_struct *p_god)
-{
-	long i;
-	
-	pthread_mutex_init(&p_god->simul_ready_mutex, NULL);
-	pthread_mutex_init(&p_god->print_mutex, NULL);
-	i = -1;
-	while (++i < p_god->num_of_philosophers)
-		pthread_mutex_init(&p_god->forks[i], NULL);
-	pthread_mutex_init(&p_god->simul_ended_mutex, NULL);
-	pthread_mutex_init(&p_god->philo_add_mutex, NULL);
 }

@@ -6,13 +6,13 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 19:07:58 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 17:40:16 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:45:32 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	print_status_error (t_god_struct *p_god, char *msg)
+void	print_status_error(t_god_struct *p_god, char *msg)
 {
 	pthread_mutex_lock(&p_god->print_mutex);
 	printf("%s\n", msg);
@@ -42,5 +42,5 @@ void	print_status(t_god_struct *p_god, int event, int id)
 	else if (event == THINKING)
 		print_status_thinking(p_god, timestamp, id);
 	else
-		print_status_error(p_god, "if you see that something drastically went wrong");
+		print_status_error(p_god, "something drastically went wrong");
 }

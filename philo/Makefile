@@ -22,17 +22,22 @@ OBJ_DIR = obj
 
 # Source files
 SRC =	src/philo.c \
+		src/input_check.c \
 		src/ft_atoi.c \
 		src/debug.c \
 		src/ft_calloc.c \
 		src/cleanup.c \
 		src/init.c \
+		src/init_mutexes.c \
 		src/routine.c \
 		src/threads.c \
 		src/print_master.c \
 		src/print_slave.c \
 		src/time.c \
-		src/getters_setters.c
+		src/getters.c \
+		src/setters.c \
+		src/philo_moves.c \
+		src/forks.c
 
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 HEAD = inc/philo.h

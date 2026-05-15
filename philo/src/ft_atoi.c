@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:51:49 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:20:02 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:56:17 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static char	*shift_whitespace(char *nptr)
 	return (&nptr[i]);
 }
 
-//TODO check if overflow safe
-//TODO check if I have to check for negative numbers
+// TODO check if overflow safe
+// TODO check if I have to check for negative numbers
 int	ft_atoi(char *nptr)
 {
 	int			i;
@@ -62,10 +62,10 @@ int	ft_atoi(char *nptr)
 			break ;
 		num *= 10;
 		if (num > INT_MAX)
-			return ERROR_HARD;
+			return (ERROR_HARD);
 		num += nptr[i] - 48;
 		if (num > INT_MAX)
-			return ERROR_HARD;
+			return (ERROR_HARD);
 		i++;
 	}
 	return ((int)num);
@@ -99,7 +99,6 @@ int	ft_atoi(char *nptr)
 		num *= (-1);
 	return ((int)num);
 } */
-
 /* int	check_digit(long long *num, int neg, long long limit, char c)
 {
 	if (!neg && *num > (limit - (c - '0')) / 10)

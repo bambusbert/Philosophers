@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 19:07:58 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 17:43:05 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:45:04 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ void	print_status_died(t_god_struct *p_god, long long timestamp, int id)
 	printf("%lld %d died\n", timestamp, id + 1);
 	pthread_mutex_unlock(&p_god->print_mutex);
 }
-

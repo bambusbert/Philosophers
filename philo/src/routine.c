@@ -6,69 +6,11 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 18:31:39 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/15 19:51:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
-
-int	take_left_fork(t_single_philo *philo)
-{
-	if (update_status(philo) == 1)
-		return (1);
-	pthread_mutex_lock(philo->fork_left);
-	print_status(philo->p_god, FORK_TAKEN, philo->id);
-	return (0);
-}
-
-int	take_right_fork(t_single_philo *philo)
-{
-	if (update_status(philo) == 1)
-		return (1);
-	pthread_mutex_lock(philo->fork_right);
-	print_status(philo->p_god, FORK_TAKEN, philo->id);
-	return (0);
-}
-
-void	put_down_left_fork(t_single_philo *philo)
-{
-	pthread_mutex_unlock(philo->fork_left);
-}
-
-void	put_down_right_fork(t_single_philo *philo)
-{
-	pthread_mutex_unlock(philo->fork_right);
-}
-
-int	eat(t_single_philo *philo)
-{
-	if (update_status(philo) == 1)
-		return (1);
-	print_status(philo->p_god, EATING, philo->id);
-	set_t_last_meal(philo, return_time_in_ms());
-	increment_times_eaten(philo);
-	if (update_status(philo) == 1)
-		return (1);
-	usleep(philo->time_to_eat * 1000);
-	return (0);
-}
-
-int	sleeep(t_single_philo *philo)
-{
-	if (update_status(philo) == 1)
-		return (1);
-	print_status(philo->p_god, SLEEPING, philo->id);
-	usleep(philo->time_to_sleep * 1000);
-	return (0);
-}
-
-int	think(t_single_philo *philo)
-{
-	if (update_status(philo) == 1)
-		return (1);
-	print_status(philo->p_god, THINKING, philo->id);
-	return (0);
-}
 
 void	wait_until_ready(t_god_struct *p_god)
 {
@@ -91,7 +33,8 @@ int	update_status(t_single_philo *philo)
 	}
 	return (0);
 }
-void	philo_routine_loop (t_single_philo *philo)
+
+void	philo_routine_loop(t_single_philo *philo)
 {
 	while (1)
 	{
@@ -119,7 +62,7 @@ void	philo_routine_loop (t_single_philo *philo)
 	}
 }
 
-void single_philo_routine (t_single_philo *philo)
+void	single_philo_routine(t_single_philo *philo)
 {
 	long long	timestamp;
 
@@ -133,15 +76,15 @@ void single_philo_routine (t_single_philo *philo)
 
 void	*philo_routine(void *arg)
 {
-	t_single_philo *philo;
-	
+	t_single_philo	*philo;
+
 	philo = (t_single_philo *)arg;
 	wait_until_ready(philo->p_god);
-	if (philo->p_god->num_of_philosophers == 1)
+	if (philo->p_god->no_phil == 1)
 		single_philo_routine(philo);
 	else
 		philo_routine_loop(philo);
-	return ((void *)NULL);
+	return ((void *) NULL);
 }
 
 /* void	*philo_routine(void *arg)
