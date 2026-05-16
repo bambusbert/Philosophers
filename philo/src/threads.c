@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:12:55 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:01:56 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:02:59 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	create_philo_threads(t_god_struct *p_god)
 	{
 		if (create_philo_thread(p_god, i) == ERROR_HARD)
 			return (ERROR_HARD);
-		p_god->threads_created +=1;
+		p_god->threads_created += 1;
 	}
 	return (RET_OK);
 }

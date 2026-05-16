@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:00:52 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:04:42 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	cleanup_shit_list(t_shit_to_free *shit_list)
 	}
 }
 
-int	add_to_shit_list(t_shit_to_free **shit_list,
+int	add_to_sl(t_shit_to_free **shit_list,
 		void *elem)
 {
 	t_shit_to_free	*new_node;
@@ -43,7 +43,7 @@ int	add_to_shit_list(t_shit_to_free **shit_list,
 	new_node = ft_calloc(1, sizeof(t_shit_to_free));
 	if (!new_node)
 	{
-		printf("malloc error in add_to_shit_list\n");
+		printf("malloc error in add_to_sl\n");
 		return (ERROR_HARD);
 	}
 	new_node->shit = elem;

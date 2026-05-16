@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 16:42:43 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:04:42 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void						print_status_died(t_god_struct *p_god,
 
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);
-int							add_to_shit_list(t_shit_to_free **shit_list,
+int							add_to_sl(t_shit_to_free **shit_list,
 								void *elem);
 void						destroy_global_mutexes(t_god_struct *p_god);
 
