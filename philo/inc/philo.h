@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 14:26:00 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:07:30 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-struct s_god_struct;
-struct s_single_philo;
+struct	s_god_struct;
+struct	s_single_philo;
 
 typedef struct s_shit_to_free
 {
@@ -107,8 +107,8 @@ t_god_struct				*create_god_struct(char **argv);
 t_single_philo				*init_philo_struct(t_god_struct *p_god, int i);
 
 // init_mutexes.c
-void						init_global_mutexes(t_god_struct *p_god);
-void						init_philo_mutexes(t_single_philo *philo);
+int							init_global_mutexes(t_god_struct *p_god);
+int							init_philo_mutexes(t_single_philo *philo);
 
 // ft_atoi.c
 int							ft_atoi(char *arg);
@@ -136,6 +136,7 @@ void						put_down_left_fork(t_single_philo *philo);
 void						put_down_right_fork(t_single_philo *philo);
 
 // philo_moves.c
+void						wait_until_ready(t_god_struct *p_god);
 int							eat(t_single_philo *philo);
 int							sleeep(t_single_philo *philo);
 int							think(t_single_philo *philo);

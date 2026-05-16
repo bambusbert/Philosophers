@@ -6,30 +6,24 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 14:04:45 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:06:25 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	wait_until_ready(t_god_struct *p_god)
+int	update_status_all(t_god_struct *p_god)
 {
-	while (get_simul_ready(p_god) == 0)
-		usleep(500);
-}
-
-int update_status_all(t_god_struct *p_god)
-{
-	t_single_philo *philo;
+	t_single_philo	*philo;
 
 	philo = p_god->philos;
 	while (philo)
 	{
 		if (update_status_one_philo(philo) == 1)
-			return philo->id;
+			return (philo->id);
 		philo = philo->next;
 	}
-	return -1;
+	return (-1);
 }
 
 int	update_status_one_philo(t_single_philo *philo)
@@ -98,7 +92,7 @@ void	*philo_routine(void *arg)
 		single_philo_routine(philo);
 	else
 		philo_routine_loop(philo);
-	return ((void *) NULL);
+	return (NULL);
 }
 
 /* void	*philo_routine(void *arg)

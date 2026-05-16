@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:51:49 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 12:52:42 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:10:41 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static char	*shift_whitespace(char *nptr)
 	return (&nptr[i]);
 }
 
-// TODO check if overflow safe
-// TODO check if I have to check for negative numbers
 int	ft_atoi(char *nptr)
 {
 	int			i;

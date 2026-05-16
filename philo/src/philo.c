@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 14:43:29 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:19:41 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,18 @@
  *      successfull. If it was, that means that eachn philosopher is in a
  *      ready state
  * TODOs:
- * -	create own ft_usleep function that continously check if simul_ended
- * 		flag is set.
- * -	implement input validation
  * -	advance clanup.c & init.c error handling
  */
 #include "../inc/philo.h"
 
-int	one_philo_has_eaten_enough(t_single_philo *philo)
+static int	one_philo_has_eaten_enough(t_single_philo *philo)
 {
 	if (get_times_eaten(philo) >= philo->no_o_t_e_p_m_eat)
 		return (1);
 	return (0);
 }
 
-int	all_philos_have_eaten_enough(t_god_struct *p_god)
+static int	all_philos_have_eaten_enough(t_god_struct *p_god)
 {
 	t_single_philo	*cur_philo;
 
@@ -51,9 +48,8 @@ int	all_philos_have_eaten_enough(t_god_struct *p_god)
 	return (1);
 }
 
-void	monitor(t_god_struct *p_god)
+static void	monitor(t_god_struct *p_god)
 {
-	usleep(300);
 	set_simul_ready(p_god);
 	p_god->start_time = return_time_in_ms();
 	while (1)
@@ -62,12 +58,20 @@ void	monitor(t_god_struct *p_god)
 			set_end_simul(p_god);
 		if (update_status_all(p_god) != -1)
 			break ;
-		// if (get_end_simul(p_god) == 1)
-		// 	break ;
-		usleep (500);
+		if (get_end_simul(p_god) == 1)
+			break ;
+		usleep(500);
 	}
 	wait_for_philo_threads(p_god);
 	cleanup_everything(p_god);
+}
+
+static int	p_god_fail_helper(t_god_struct *p_god)
+{
+	printf("malloc error in create_god_struct or argument \
+			INT_MAX overflow\n");
+	cleanup_everything(p_god);
+	return (1);
 }
 
 int	main(int argc, char **argv)
@@ -80,13 +84,13 @@ int	main(int argc, char **argv)
 		return (1);
 	p_god = create_god_struct(argv);
 	if (!p_god)
+		return (p_god_fail_helper(p_god));
+	if (init_global_mutexes(p_god) == ERROR_HARD)
 	{
-		printf("malloc error in create_god_struct or argument \
-			INT_MAX overflow\n");
+		printf("critical error in init_global_mutexes\n");
 		cleanup_everything(p_god);
 		return (1);
 	}
-	init_global_mutexes(p_god);
 	if (create_philo_threads(p_god) == ERROR_HARD)
 	{
 		printf("critical error in create_philo_threads\n");

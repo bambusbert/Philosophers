@@ -6,11 +6,17 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 19:40:21 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 14:26:45 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:05:50 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+
+void	wait_until_ready(t_god_struct *p_god)
+{
+	while (get_simul_ready(p_god) == 0)
+		usleep(500);
+}
 
 int	eat(t_single_philo *philo)
 {

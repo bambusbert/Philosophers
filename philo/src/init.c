@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 12:53:51 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:24:54 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_god_struct	*create_god_struct(char **argv)
 	if (!p_god)
 		return (NULL);
 	if (fill_args(p_god, argv) == ERROR_HARD)
-		return (NULL);
+		return (free(p_god), NULL);
 	p_god->shit_list = NULL;
 	p_god->threads = ft_calloc(p_god->no_phil, sizeof(pthread_t));
 	if (!p_god->threads)
@@ -67,7 +67,7 @@ t_god_struct	*create_god_struct(char **argv)
 		return (free(p_god->threads), free(p_god), NULL);
 	p_god->forks = ft_calloc(p_god->no_phil, sizeof(pthread_mutex_t));
 	if (!p_god->forks)
-		return (free(p_god), NULL);
+		return (free(p_god->threads), free(p_god), NULL);
 	if (add_to_shit_list(&(p_god->shit_list),
 			(void *)p_god->forks) == ERROR_HARD)
 		return (free(p_god->forks), free(p_god), NULL);
@@ -110,6 +110,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	assign_group(philo);
 	assign_forks(p_god, philo);
 	philo->next = NULL;
-	init_philo_mutexes(philo);
+	if (init_philo_mutexes(philo) == ERROR_HARD)
+		return (NULL);
 	return (philo);
 }
