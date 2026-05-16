@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 19:07:58 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:45:32 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:02:01 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,6 @@ void	print_status_error(t_god_struct *p_god, char *msg)
 	pthread_mutex_unlock(&p_god->print_mutex);
 }
 
-/*
- *	TODO think about if i need a separate logic for death msgs
- */
 void	print_status(t_god_struct *p_god, int event, int id)
 {
 	long long	timestamp;

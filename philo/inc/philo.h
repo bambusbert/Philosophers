@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 16:07:30 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:42:43 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_god_struct
 	int						time_to_eat;
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
+	int						threads_created;
 	long long				start_time;
 	pthread_mutex_t			simul_ready_mutex;
 	int						ready;

@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 19:40:21 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 16:05:50 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 16:57:15 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	wait_until_ready(t_god_struct *p_god)
 {
-	while (get_simul_ready(p_god) == 0)
+	while (get_simul_ready(p_god) == 0 && get_end_simul(p_god) == 0)
 		usleep(500);
 }
 

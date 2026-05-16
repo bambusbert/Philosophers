@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 16:19:41 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:02:07 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	monitor(t_god_struct *p_god)
 			break ;
 		usleep(500);
 	}
-	wait_for_philo_threads(p_god);
+	//wait_for_philo_threads(p_god);
 	cleanup_everything(p_god);
 }
 

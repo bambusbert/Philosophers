@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 16:10:16 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 17:00:52 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	cleanup_everything(t_god_struct *p_god)
 {
 	if (!p_god)
 		return ;
+	set_end_simul(p_god);
+	wait_for_philo_threads(p_god);
 	destroy_global_mutexes(p_god);
 	destroy_philo_mutexes(p_god);
 	cleanup_shit_list(p_god->shit_list);
