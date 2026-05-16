@@ -6,13 +6,13 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:51:49 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:56:17 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 12:52:42 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static int	sign_handler(const char *nptr)
+/* static int	sign_handler(const char *nptr)
 {
 	int	minus;
 	int	was_there_a_sign;
@@ -31,7 +31,7 @@ static int	sign_handler(const char *nptr)
 		was_there_a_sign = 2;
 	}
 	return (minus + was_there_a_sign);
-}
+} */
 
 static char	*shift_whitespace(char *nptr)
 {

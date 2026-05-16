@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:51:00 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 14:04:45 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,21 @@ void	wait_until_ready(t_god_struct *p_god)
 		usleep(500);
 }
 
-int	update_status(t_single_philo *philo)
+int update_status_all(t_god_struct *p_god)
+{
+	t_single_philo *philo;
+
+	philo = p_god->philos;
+	while (philo)
+	{
+		if (update_status_one_philo(philo) == 1)
+			return philo->id;
+		philo = philo->next;
+	}
+	return -1;
+}
+
+int	update_status_one_philo(t_single_philo *philo)
 {
 	long long	time_last_meal;
 
@@ -39,7 +53,7 @@ void	philo_routine_loop(t_single_philo *philo)
 	while (1)
 	{
 		if (philo->group == GROUP_ODD)
-			usleep(1000);
+			ft_usleep(1000, philo);
 		if (take_right_fork(philo) == 1)
 			break ;
 		if (take_left_fork(philo) == 1)
@@ -68,7 +82,7 @@ void	single_philo_routine(t_single_philo *philo)
 
 	timestamp = return_delta_time(philo->p_god);
 	print_status_fork(philo->p_god, timestamp, philo->id);
-	usleep(philo->time_to_die * 1000);
+	ft_usleep(philo->time_to_die * 1000, philo);
 	timestamp = return_delta_time(philo->p_god);
 	print_status_died(philo->p_god, timestamp, philo->id);
 	set_end_simul(philo->p_god);

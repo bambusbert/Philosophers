@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:46:17 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 14:43:29 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 
 int	one_philo_has_eaten_enough(t_single_philo *philo)
 {
-	int	ret;
-
 	if (get_times_eaten(philo) >= philo->no_o_t_e_p_m_eat)
 		return (1);
 	return (0);
@@ -62,19 +60,16 @@ void	monitor(t_god_struct *p_god)
 	{
 		if (all_philos_have_eaten_enough(p_god))
 			set_end_simul(p_god);
-		if (get_end_simul(p_god) == 1)
+		if (update_status_all(p_god) != -1)
 			break ;
+		// if (get_end_simul(p_god) == 1)
+		// 	break ;
+		usleep (500);
 	}
 	wait_for_philo_threads(p_god);
 	cleanup_everything(p_god);
 }
 
-/*
- *	TODO: check if args passed are valid (numeric, within certain limits
- *	etc.). maybe in ft_atoi itself?
- *	if that's ok, we create the init_struct
- *
- */
 int	main(int argc, char **argv)
 {
 	t_god_struct	*p_god;

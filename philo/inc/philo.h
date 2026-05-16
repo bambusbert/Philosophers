@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:55:15 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 14:26:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ typedef struct s_god_struct
 	pthread_mutex_t			simul_ended_mutex;
 	int						simul_ended;
 	pthread_t				*threads;
-	// pthread_mutex_t		shit_mutex;
 	pthread_mutex_t			print_mutex;
 	pthread_mutex_t			*forks;
 	pthread_mutex_t			philo_add_mutex;
 	struct s_single_philo	*philos;
 }							t_god_struct;
 
-// struct for singular philosopher
 typedef struct s_single_philo
 {
 	t_god_struct			*p_god;
@@ -107,28 +105,29 @@ int							check_input(int argc, char **argv);
 // init.c
 t_god_struct				*create_god_struct(char **argv);
 t_single_philo				*init_philo_struct(t_god_struct *p_god, int i);
-void						init_global_mutexes(t_god_struct *p_god);
 
 // init_mutexes.c
 void						init_global_mutexes(t_god_struct *p_god);
 void						init_philo_mutexes(t_single_philo *philo);
 
-// xyxyxyxyx
+// ft_atoi.c
 int							ft_atoi(char *arg);
+
+// ft_calloc.c
 void						*ft_calloc(size_t nmemb, size_t size);
-int							get_simul_ready(t_god_struct *p_god);
 
 // time.c
 long long					return_time_in_ms(void);
 long long					return_delta_time(t_god_struct *p_god);
-
+void						ft_usleep(long usec, t_single_philo *philo);
 // threads.c
 int							create_philo_threads(t_god_struct *p_god);
 void						wait_for_philo_threads(t_god_struct *p_god);
 
 // routine.c
 void						*philo_routine(void *arg);
-int							update_status(t_single_philo *philo);
+int							update_status_one_philo(t_single_philo *philo);
+int							update_status_all(t_god_struct *p_god);
 
 // forks.c
 int							take_left_fork(t_single_philo *philo);
@@ -158,8 +157,8 @@ void						print_status_died(t_god_struct *p_god,
 
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);
-int							add_to_shit_list(t_god_struct *p_god,
-								t_shit_to_free **shit_list, void *elem);
+int							add_to_shit_list(t_shit_to_free **shit_list,
+								void *elem);
 void						destroy_global_mutexes(t_god_struct *p_god);
 
 // getters.c
@@ -174,12 +173,5 @@ void						set_end_simul(t_god_struct *p_god);
 void						set_t_last_meal(t_single_philo *philo,
 								long long time);
 void						increment_times_eaten(t_single_philo *philo);
-
-// void update_t_last_meal(t_single_philo *philo);
-void						set_t_last_meal(t_single_philo *philo,
-								long long time);
-long long					get_t_last_meal(t_single_philo *philo);
-void						increment_times_eaten(t_single_philo *philo);
-int							get_times_eaten(t_single_philo *philo);
 
 #endif

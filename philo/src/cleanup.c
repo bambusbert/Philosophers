@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:57:06 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 12:53:00 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	cleanup_shit_list(t_shit_to_free *shit_list)
  *	be careful! the god list is the only malloc'ed thing that is NOT
  *	a member of the shit list
  */
-int	add_to_shit_list(t_god_struct *p_god, t_shit_to_free **shit_list,
+int	add_to_shit_list(t_shit_to_free **shit_list,
 		void *elem)
 {
 	t_shit_to_free	*new_node;

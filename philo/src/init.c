@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/15 19:51:07 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 12:53:51 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god->threads = ft_calloc(p_god->no_phil, sizeof(pthread_t));
 	if (!p_god->threads)
 		return (free(p_god), NULL);
-	if (add_to_shit_list(p_god, &(p_god->shit_list),
+	if (add_to_shit_list(&(p_god->shit_list),
 			(void *)p_god->threads) == ERROR_HARD)
 		return (free(p_god->threads), free(p_god), NULL);
 	p_god->forks = ft_calloc(p_god->no_phil, sizeof(pthread_mutex_t));
 	if (!p_god->forks)
 		return (free(p_god), NULL);
-	if (add_to_shit_list(p_god, &(p_god->shit_list),
+	if (add_to_shit_list(&(p_god->shit_list),
 			(void *)p_god->forks) == ERROR_HARD)
 		return (free(p_god->forks), free(p_god), NULL);
 	p_god->start_time = return_time_in_ms();
@@ -93,7 +93,7 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo = ft_calloc(1, sizeof(t_single_philo));
 	if (!philo)
 		return (NULL);
-	if (add_to_shit_list(p_god, &(p_god->shit_list), philo) == ERROR_HARD)
+	if (add_to_shit_list(&(p_god->shit_list), philo) == ERROR_HARD)
 		return (free(philo), NULL);
 	philo->id = i;
 	philo->no_o_t_e_p_m_eat = p_god->no_o_t_e_p_m_eat;
