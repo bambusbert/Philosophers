@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:04:46 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:27:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ t_god_struct	*create_god_struct(char **argv)
 	p_god->ready = 0;
 	p_god->simul_ended = 0;
 	p_god->threads_created = 0;
+	p_god->forks_initialized = 0;
 	return (p_god);
 }
 

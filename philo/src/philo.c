@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:03:25 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:38:11 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,8 @@ int	main(int argc, char **argv)
 	p_god = create_god_struct(argv);
 	if (!p_god)
 		return (p_god_fail_helper(p_god));
-	if (init_global_mutexes(p_god) == ERROR_HARD)
-	{
-		printf("critical error in init_global_mutexes\n");
-		cleanup_everything(p_god);
+	if (initialize_everything(p_god) == ERROR_HARD)
 		return (1);
-	}
-	if (create_philo_threads(p_god) == ERROR_HARD)
-	{
-		printf("critical error in create_philo_threads\n");
-		cleanup_everything(p_god);
-		return (1);
-	}
 	monitor(p_god);
 	return (0);
 }

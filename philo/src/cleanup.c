@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/05 16:33:42 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:04:42 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:27:22 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	destroy_global_mutexes(t_god_struct *p_god)
 	pthread_mutex_destroy(&p_god->simul_ready_mutex);
 	pthread_mutex_destroy(&p_god->print_mutex);
 	i = -1;
-	while (++i < p_god->no_phil)
+	while (++i < p_god->forks_initialized)
 		pthread_mutex_destroy(&p_god->forks[i]);
 	pthread_mutex_destroy(&p_god->simul_ended_mutex);
 	pthread_mutex_destroy(&p_god->philo_add_mutex);

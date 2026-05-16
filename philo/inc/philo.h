@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 17:04:42 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/16 18:39:49 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_god_struct
 	int						time_to_sleep;
 	int						no_o_t_e_p_m_eat;
 	int						threads_created;
+	int						forks_initialized;
 	long long				start_time;
 	pthread_mutex_t			simul_ready_mutex;
 	int						ready;
@@ -102,6 +103,7 @@ void						say_hello(t_single_philo *philo);
 
 // input_check.c
 int							check_input(int argc, char **argv);
+int							zero_check(t_god_struct *p_god);
 
 // init.c
 t_god_struct				*create_god_struct(char **argv);
@@ -110,6 +112,7 @@ t_single_philo				*init_philo_struct(t_god_struct *p_god, int i);
 // init_mutexes.c
 int							init_global_mutexes(t_god_struct *p_god);
 int							init_philo_mutexes(t_single_philo *philo);
+int							initialize_everything(t_god_struct *p_god);
 
 // ft_atoi.c
 int							ft_atoi(char *arg);
@@ -159,8 +162,7 @@ void						print_status_died(t_god_struct *p_god,
 
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);
-int							add_to_sl(t_shit_to_free **shit_list,
-								void *elem);
+int							add_to_sl(t_shit_to_free **shit_list, void *elem);
 void						destroy_global_mutexes(t_god_struct *p_god);
 
 // getters.c
