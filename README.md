@@ -51,7 +51,7 @@ make re       # full rebuild
 
 ### Arguments
 
-All arguments must be **positive integers**.
+All arguments must be **positive integers**. Whitespace is **NOT** allowed.
 
 | Argument | Description |
 |---|---|

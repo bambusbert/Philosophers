@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 18:39:49 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/17 21:18:24 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ typedef struct s_single_philo
 	pthread_mutex_t			times_eaten_mutex;
 	int						times_eaten;
 	int						group;
-	int						is_alternating;
 	pthread_mutex_t			*fork_left;
 	pthread_mutex_t			*fork_right;
 	struct s_single_philo	*next;
@@ -95,11 +94,6 @@ enum
 	GROUP_ODD,
 	GROUP_EVEN
 };
-
-// debug.c
-void						print_p_init(t_god_struct *p_init);
-void						print_philo_forks(t_single_philo *philo);
-void						say_hello(t_single_philo *philo);
 
 // input_check.c
 int							check_input(int argc, char **argv);

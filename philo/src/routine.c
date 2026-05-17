@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 18:51:39 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/17 21:30:28 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	philo_routine_loop(t_single_philo *philo)
 {
 	while (1)
 	{
-		if (philo->group == GROUP_ODD)
-			ft_usleep(2000, philo);
+		if (philo->group == GROUP_EVEN)
+			ft_usleep(1000, philo);
 		if (take_right_fork(philo) == 1)
 			break ;
 		if (take_left_fork(philo) == 1)
@@ -94,48 +94,3 @@ void	*philo_routine(void *arg)
 		philo_routine_loop(philo);
 	return (NULL);
 }
-
-/* void	*philo_routine(void *arg)
-{
-	t_single_philo *philo;
-
-	philo = (t_single_philo *)arg;
-	// say_hello(philo);
-	wait_until_ready(philo->p_god);
-	while (1)
-	{
-		if (philo->group == GROUP_ODD)
-		{
-			if (take_left_fork(philo) == 1)
-				break ;
-			if (take_right_fork(philo) == 1)
-			{
-				put_down_left_fork(philo);
-				break ;
-			}
-		}
-		else
-		{
-			if (take_right_fork(philo) == 1)
-				break ;
-			if (take_left_fork(philo) == 1)
-			{
-				put_down_right_fork(philo);
-				break ;
-			}
-		}
-		if (eat(philo) == 1)
-		{
-			put_down_left_fork(philo);
-			put_down_right_fork(philo);
-			break ;
-		}
-		put_down_left_fork(philo);
-		put_down_right_fork(philo);
-		if (sleeep(philo) == 1)
-			break ;
-		if (think(philo) == 1)
-			break ;
-	}
-	return ((void *)NULL);
-} */

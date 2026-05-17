@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 18:27:22 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/17 21:18:15 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_god_struct	*create_god_struct(char **argv)
 	if (!p_god->forks)
 		return (free(p_god->threads), free(p_god), NULL);
 	if (add_to_sl(&(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
-		return (free(p_god->forks), free(p_god), NULL);
+		return (free(p_god->forks), free (p_god->threads), free(p_god), NULL);
 	p_god->start_time = return_time_in_ms();
 	p_god->philos = NULL;
 	p_god->ready = 0;
@@ -102,11 +102,8 @@ t_single_philo	*init_philo_struct(t_god_struct *p_god, int i)
 	philo->time_to_sleep = p_god->time_to_sleep;
 	philo->time_last_meal = p_god->start_time;
 	philo->times_eaten = 0;
-	philo->is_alternating = 0;
 	philo->p_god = p_god;
 	philo->status = INIT;
-	if (i == p_god->no_phil - 1 && philo->id % 2 == 0)
-		philo->is_alternating = 1;
 	assign_group(philo);
 	assign_forks(p_god, philo);
 	philo->next = NULL;

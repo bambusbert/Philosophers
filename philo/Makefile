@@ -24,7 +24,6 @@ OBJ_DIR = obj
 SRC =	src/philo.c \
 		src/input_check.c \
 		src/ft_atoi.c \
-		src/debug.c \
 		src/ft_calloc.c \
 		src/cleanup.c \
 		src/init.c \
