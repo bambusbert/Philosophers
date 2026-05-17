@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/17 21:18:24 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/17 21:44:32 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,10 @@ typedef struct s_single_philo
 
 enum						e_philo_status
 {
-	NOT_INIT = 0,
-	INIT,
+	INIT = 0,
 	SLEEPING,
 	THINKING,
 	FORK_TAKEN,
-	HUNGRY,
 	EATING,
 	DEAD
 };
@@ -85,8 +83,7 @@ enum						e_philo_status
 enum
 {
 	RET_OK = 0,
-	ERROR_SOFT = -1,
-	ERROR_HARD = -2
+	ERROR_HARD = -1
 };
 
 enum
