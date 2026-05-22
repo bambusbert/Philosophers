@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/22 11:22:36 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/22 13:26:14 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	philo_routine_loop(t_single_philo *philo)
 {
 	while (1)
 	{
-		if (philo->group == GROUP_EVEN && philo->status == INIT)
+		if (philo->group == GROUP_ODD && philo->status == INIT)
 		{
 			philo->status = HUNGRY;
-			ft_usleep(1000, philo);
+			ft_usleep(2500, philo);
 		}
 		if (take_right_fork(philo) == 1)
 			break ;
@@ -73,13 +73,9 @@ void	philo_routine_loop(t_single_philo *philo)
 
 void	single_philo_routine(t_single_philo *philo)
 {
-	long long	timestamp;
-
-	timestamp = return_delta_time(philo->p_god);
-	print_status_fork(philo->p_god, timestamp, philo->id);
+	print_status_fork(philo->p_god, philo->id);
 	ft_usleep(philo->time_to_die * 1000, philo);
-	timestamp = return_delta_time(philo->p_god);
-	print_status_died(philo->p_god, timestamp, philo->id);
+	print_status_died(philo->p_god, philo->id);
 	set_end_simul(philo->p_god);
 }
 

@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/22 11:23:40 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/22 12:57:57 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,16 +142,11 @@ void						print_status(t_god_struct *p_god, int event,
 								int id);
 
 // print_slave.c
-void						print_status_fork(t_god_struct *p_god,
-								long long timestamp, int id);
-void						print_status_eating(t_god_struct *p_god,
-								long long timestamp, int id);
-void						print_status_sleeping(t_god_struct *p_god,
-								long long timestamp, int id);
-void						print_status_thinking(t_god_struct *p_god,
-								long long timestamp, int id);
-void						print_status_died(t_god_struct *p_god,
-								long long timestamp, int id);
+void						print_status_fork(t_god_struct *p_god, int id);
+void						print_status_eating(t_god_struct *p_god, int id);
+void						print_status_sleeping(t_god_struct *p_god, int id);
+void						print_status_thinking(t_god_struct *p_god, int id);
+void						print_status_died(t_god_struct *p_god, int id);
 
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);

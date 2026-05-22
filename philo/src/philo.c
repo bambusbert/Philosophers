@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:25:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/17 21:29:28 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/22 12:11:33 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,22 @@ static int	all_philos_have_eaten_enough(t_god_struct *p_god)
 	return (1);
 }
 
+static void initialize_start_time(t_god_struct *p_god)
+{
+	t_single_philo *philo;
+
+	p_god->start_time = return_time_in_ms();
+	philo = p_god->philos;
+	while (philo)
+	{
+		philo->time_last_meal = p_god->start_time;
+		philo = philo->next;
+	}
+}
+
 static void	monitor(t_god_struct *p_god)
 {
-	p_god->start_time = return_time_in_ms();
+	initialize_start_time(p_god);
 	set_simul_ready(p_god);
 	while (1)
 	{
