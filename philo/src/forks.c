@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 19:41:33 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/16 13:36:49 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/22 11:23:27 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,10 @@ void	put_down_left_fork(t_single_philo *philo)
 void	put_down_right_fork(t_single_philo *philo)
 {
 	pthread_mutex_unlock(philo->fork_right);
+}
+
+void	put_down_both_forks(t_single_philo *philo)
+{
+	put_down_left_fork(philo);
+	put_down_right_fork(philo);
 }

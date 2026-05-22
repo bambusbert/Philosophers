@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/17 21:44:32 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/22 11:23:40 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_single_philo
 enum						e_philo_status
 {
 	INIT = 0,
+	HUNGRY,
 	SLEEPING,
 	THINKING,
 	FORK_TAKEN,
@@ -129,6 +130,7 @@ int							take_left_fork(t_single_philo *philo);
 int							take_right_fork(t_single_philo *philo);
 void						put_down_left_fork(t_single_philo *philo);
 void						put_down_right_fork(t_single_philo *philo);
+void						put_down_both_forks(t_single_philo *philo);
 
 // philo_moves.c
 void						wait_until_ready(t_god_struct *p_god);
