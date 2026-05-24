@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/15 19:40:21 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/22 12:21:42 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:04:11 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,17 @@ int	sleeep(t_single_philo *philo)
 
 int	think(t_single_philo *philo)
 {
+	long long	t_think;
+
 	if (update_status_one_philo(philo) == 1)
 		return (1);
 	print_status(philo->p_god, THINKING, philo->id);
+	if (philo->p_god->no_phil % 2 != 0)
+	{
+		t_think = philo->time_to_eat - philo->time_to_sleep;
+		if (t_think < 0)
+			t_think = 0;
+		ft_usleep((t_think * 1000) + 1000, philo);
+	}
 	return (0);
 }

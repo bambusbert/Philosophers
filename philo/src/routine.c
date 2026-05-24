@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/22 13:33:05 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:04:13 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,25 @@ void	philo_routine_loop(t_single_philo *philo)
 			philo->status = HUNGRY;
 			ft_usleep(2500, philo);
 		}
-		if (take_right_fork(philo) == 1)
-			break ;
-		if (take_left_fork(philo) == 1)
+		if (philo->group == GROUP_EVEN)
 		{
-			put_down_right_fork(philo);
-			break ;
+			if (take_left_fork(philo) == 1)
+				break ;
+			if (take_right_fork(philo) == 1)
+			{
+				put_down_left_fork(philo);
+				break ;
+			}
+		}
+		else
+		{
+			if (take_right_fork(philo) == 1)
+				break ;
+			if (take_left_fork(philo) == 1)
+			{
+				put_down_right_fork(philo);
+				break ;
+			}
 		}
 		if (eat(philo) == 1)
 		{
