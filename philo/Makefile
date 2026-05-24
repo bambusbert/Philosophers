@@ -12,8 +12,8 @@ RED = \033[0;31m
 
 # Compiler and flags
 CC = cc
-#CFLAGS = -Wall -Wextra -Werror -pthread
-CFLAGS = -pthread -g
+CFLAGS = -Wall -Wextra -Werror -pthread
+#CFLAGS = -pthread -g
 INCLUDES = -I./inc
 
 # Directories
@@ -29,6 +29,7 @@ SRC =	src/philo.c \
 		src/init.c \
 		src/init_mutexes.c \
 		src/routine.c \
+		src/routine2.c \
 		src/threads.c \
 		src/print_master.c \
 		src/print_slave.c \

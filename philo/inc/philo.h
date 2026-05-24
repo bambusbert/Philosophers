@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/04 14:24:40 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/24 13:21:28 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:38:21 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,11 @@ void						wait_for_philo_threads(t_god_struct *p_god);
 
 // routine.c
 void						*philo_routine(void *arg);
+
+// routine2.c
 int							update_status_one_philo(t_single_philo *philo);
 int							update_status_all(t_god_struct *p_god);
+void						initial_delay(t_single_philo *philo);
 
 // forks.c
 int							take_left_fork(t_single_philo *philo);

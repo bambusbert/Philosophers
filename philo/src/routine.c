@@ -6,71 +6,48 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 18:11:09 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/24 14:04:13 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/24 14:37:42 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int	update_status_all(t_god_struct *p_god)
+static int	even_strat(t_single_philo *philo)
 {
-	t_single_philo	*philo;
-
-	philo = p_god->philos;
-	while (philo)
-	{
-		if (update_status_one_philo(philo) == 1)
-			return (philo->id);
-		philo = philo->next;
-	}
-	return (-1);
-}
-
-int	update_status_one_philo(t_single_philo *philo)
-{
-	long long	time_last_meal;
-
-	if (get_end_simul(philo->p_god) == 1)
+	if (take_left_fork(philo) == 1)
 		return (1);
-	time_last_meal = return_time_in_ms() - get_t_last_meal(philo);
-	if (time_last_meal > philo->time_to_die)
+	if (take_right_fork(philo) == 1)
 	{
-		set_end_simul(philo->p_god);
-		print_status(philo->p_god, DEAD, philo->id);
+		put_down_left_fork(philo);
 		return (1);
 	}
 	return (0);
 }
 
-void	philo_routine_loop(t_single_philo *philo)
+static int	odd_strat(t_single_philo *philo)
 {
+	if (take_right_fork(philo) == 1)
+		return (1);
+	if (take_left_fork(philo) == 1)
+	{
+		put_down_right_fork(philo);
+		return (1);
+	}
+	return (0);
+}
+
+static void	philo_routine_loop(t_single_philo *philo)
+{
+	initial_delay(philo);
 	while (1)
 	{
-		if (philo->group == GROUP_ODD && philo->status == INIT)
-		{
-			philo->status = HUNGRY;
-			ft_usleep(2500, philo);
-		}
 		if (philo->group == GROUP_EVEN)
 		{
-			if (take_left_fork(philo) == 1)
+			if (even_strat(philo) == 1)
 				break ;
-			if (take_right_fork(philo) == 1)
-			{
-				put_down_left_fork(philo);
-				break ;
-			}
 		}
-		else
-		{
-			if (take_right_fork(philo) == 1)
-				break ;
-			if (take_left_fork(philo) == 1)
-			{
-				put_down_right_fork(philo);
-				break ;
-			}
-		}
+		else if (odd_strat(philo) == 1)
+			break ;
 		if (eat(philo) == 1)
 		{
 			put_down_both_forks(philo);
@@ -84,7 +61,7 @@ void	philo_routine_loop(t_single_philo *philo)
 	}
 }
 
-void	single_philo_routine(t_single_philo *philo)
+static void	single_philo_routine(t_single_philo *philo)
 {
 	print_status_fork(philo->p_god, philo->id);
 	ft_usleep(philo->time_to_die * 1000, philo);
