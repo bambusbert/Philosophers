@@ -6,7 +6,7 @@
 /*   By: slambert <slambert@student.42vienna.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/06 15:34:39 by slambert          #+#    #+#             */
-/*   Updated: 2026/05/17 21:18:15 by slambert         ###   ########.fr       */
+/*   Updated: 2026/05/25 11:47:51 by slambert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ t_god_struct	*create_god_struct(char **argv)
 		return (free(p_god->threads), free(p_god), NULL);
 	p_god->forks = ft_calloc(p_god->no_phil, sizeof(pthread_mutex_t));
 	if (!p_god->forks)
-		return (free(p_god->threads), free(p_god), NULL);
+		return (cleanup_shit_list(p_god->shit_list), free(p_god), NULL);
 	if (add_to_sl(&(p_god->shit_list), (void *)p_god->forks) == ERROR_HARD)
-		return (free(p_god->forks), free (p_god->threads), free(p_god), NULL);
-	p_god->start_time = return_time_in_ms();
+		return (free(p_god->forks), cleanup_shit_list(p_god->shit_list),
+			free(p_god), NULL);
 	p_god->philos = NULL;
 	p_god->ready = 0;
 	p_god->simul_ended = 0;

@@ -1,4 +1,4 @@
-#Makefile for Philosophers Project
+#Makefile for Philosophers
 
 # Project name
 NAME = philo
@@ -12,8 +12,8 @@ RED = \033[0;31m
 
 # Compiler and flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
-#CFLAGS = -pthread -g
+#CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -pthread -g
 INCLUDES = -I./inc
 
 # Directories

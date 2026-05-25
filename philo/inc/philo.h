@@ -154,6 +154,7 @@ void						print_status_died(t_god_struct *p_god, int id);
 // cleanup.c
 void						cleanup_everything(t_god_struct *p_god);
 int							add_to_sl(t_shit_to_free **shit_list, void *elem);
+void						cleanup_shit_list(t_shit_to_free *shit_list);
 void						destroy_global_mutexes(t_god_struct *p_god);
 
 // getters.c

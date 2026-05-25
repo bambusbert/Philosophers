@@ -18,7 +18,7 @@
  *  cleanup_shit_list from anywhere and call exit
  * 	problem for philosophers: exit is not allowed (only in bonus)
  */
-static void	cleanup_shit_list(t_shit_to_free *shit_list)
+void	cleanup_shit_list(t_shit_to_free *shit_list)
 {
 	t_shit_to_free	*current;
 	t_shit_to_free	*next;
